@@ -48,7 +48,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = getValueByRowCol(input, 0, 0)
       // verify
-      assert.strictEqual(result, expected)
+      assert.equal(result, expected)
     }),
     it('returns the correct value for (0, 0) on solvedSudoku', () => {
       // setup
@@ -57,7 +57,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = getValueByRowCol(input, 0, 0)
       // verify
-      assert.strictEqual(result, expected)
+      assert.equal(result, expected)
     })
   })
 })

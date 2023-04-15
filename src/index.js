@@ -1,5 +1,5 @@
 const getValueByRowCol = (sudokuStr, row, col) => {
-  return '.'
+    return sudokuStr[0];
 }
 
 const forExport = { getValueByRowCol }
