@@ -1,4 +1,7 @@
-const forExport = {
+const getValueByRowCol = (sudokuStr, row, col) => {
+  return '.'
 }
 
-module.exports = forExport;
+const forExport = { getValueByRowCol }
+
+module.exports = forExport

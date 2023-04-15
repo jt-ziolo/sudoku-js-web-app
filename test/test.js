@@ -1,6 +1,6 @@
 const assert = require('chai').assert
 const exported = require('../src/index.js')
-const getValueByRowCol = exported.valueByRowCol
+const getValueByRowCol = exported.getValueByRowCol
 
 function trimSudoku (sudoku) {
   let temp = ''
@@ -41,10 +41,19 @@ console.log(solvedSudoku)
 
 describe('sudoku utility functions', () => {
   describe('getValueByRowCol', () => {
-    it('returns the correct value for (0, 0)', () => {
+    it('returns the correct value for (0, 0) on unsolvedSudoku', () => {
       // setup
       const input = unsolvedSudoku
       const expected = '.'
+      // exercise
+      const result = getValueByRowCol(input, 0, 0)
+      // verify
+      assert.strictEqual(result, expected)
+    }),
+    it('returns the correct value for (0, 0) on solvedSudoku', () => {
+      // setup
+      const input = solvedSudoku
+      const expected = 1
       // exercise
       const result = getValueByRowCol(input, 0, 0)
       // verify
