@@ -49,7 +49,7 @@ describe('sudoku utility functions', () => {
       const result = getValueByRowCol(input, 0, 0)
       // verify
       assert.equal(result, expected)
-    }),
+    })
     it('returns the correct value for (0, 0) on solvedSudoku', () => {
       // setup
       const input = solvedSudoku
@@ -58,6 +58,39 @@ describe('sudoku utility functions', () => {
       const result = getValueByRowCol(input, 0, 0)
       // verify
       assert.equal(result, expected)
+    })
+    it('returns the correct value for (8, 0) on unsolvedSudoku', () => {
+      // setup
+      const input = unsolvedSudoku
+      const expected = 9
+      // exercise
+      const result = getValueByRowCol(input, 8, 0)
+      // verify
+      assert.equal(result, expected)
+    })
+    it('returns the correct value for (4, 3) on unsolvedSudoku', () => {
+      
+    })
+    it('returns the correct value for (4, 3) on solvedSudoku', () => {
+      
+    })
+    it('throws out of bounds error for (-1, 0)', () => {
+      
+    })
+    it('throws out of bounds error for (0, -1)', () => {
+      
+    })
+    it('throws out of bounds error for (-1, -1)', () => {
+      
+    })
+    it('throws out of bounds error for (9, 0)', () => {
+      
+    })
+    it('throws out of bounds error for (0, 9)', () => {
+      
+    })
+    it('throws out of bounds error for (9, 9)', () => {
+      
     })
   })
 })
