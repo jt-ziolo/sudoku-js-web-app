@@ -1,10 +1,4 @@
-const Generate = {
-    example() {
-        return "hello";
-    },
-    example_pt2() {
-        return "world";
-    }
+const forExport = {
 }
 
-module.exports = Generate;
+module.exports = forExport;
