@@ -47,6 +47,7 @@ describe('sudoku utility functions', () => {
       const expected = '.'
       // exercise
       const result = getValueByRowCol(input, 0, 0)
+      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -56,6 +57,7 @@ describe('sudoku utility functions', () => {
       const expected = 1
       // exercise
       const result = getValueByRowCol(input, 0, 0)
+      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -65,17 +67,73 @@ describe('sudoku utility functions', () => {
       const expected = 9
       // exercise
       const result = getValueByRowCol(input, 8, 0)
-      console.log(result, input);
+      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
-    it('returns the correct value for (4, 3) on unsolvedSudoku')
-    it('returns the correct value for (4, 3) on solvedSudoku')
-    it('throws out of bounds error for (-1, *)')
-    it('throws out of bounds error for (*, -1)')
-    it('throws out of bounds error for (-1, -1)')
-    it('throws out of bounds error for (9, *)')
-    it('throws out of bounds error for (*, 9)')
-    it('throws out of bounds error for (9, 9)')
+    it('returns the correct value for (4, 3) on unsolvedSudoku', () => {
+      // setup
+      const input = unsolvedSudoku
+      const expected = '.'
+      // exercise
+      const result = getValueByRowCol(input, 4, 3)
+      console.log(result, input)
+      // verify
+      assert.equal(result, expected)
+    })
+    it('returns the correct value for (4, 3) on solvedSudoku', () => {
+      // setup
+      const input = solvedSudoku
+      const expected = 8
+      // exercise
+      const result = getValueByRowCol(input, 4, 3)
+      console.log(result, input)
+      // verify
+      assert.equal(result, expected)
+    })
+    it('throws RangeError for (-1, *)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      for (let i = 0; i < 9; i++) {
+        assert.throws(() => getValueByRowCol(input, -1, i), RangeError)
+      }
+    })
+    it('throws RangeError for (*, -1)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      for (let i = 0; i < 9; i++) {
+        assert.throws(() => getValueByRowCol(input, i, -1), RangeError)
+      }
+    })
+    it('throws RangeError for (-1, -1)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      assert.throws(() => getValueByRowCol(input, -1, -1), RangeError)
+    })
+    it('throws RangeError for (9, *)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      for (let i = 0; i < 9; i++) {
+        assert.throws(() => getValueByRowCol(input, 9, i), RangeError)
+      }
+    })
+    it('throws RangeError for (*, 9)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      for (let i = 0; i < 9; i++) {
+        assert.throws(() => getValueByRowCol(input, i, 9), RangeError)
+      }
+    })
+    it('throws RangeError for (9, 9)', () => {
+      // setup
+      const input = unsolvedSudoku // does not matter which
+      // exercise and verify
+      assert.throws(() => getValueByRowCol(input, 9, 9), RangeError)
+    })
   })
 })
