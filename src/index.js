@@ -7,6 +7,12 @@ const getValueByRowCol = (sudokuStr, row, col) => {
   // 1, 8, 17
   // x, y, x*9+y
 
+  if (0 > row || 9 <= row) {
+    throw RangeError('Row must be >= 0 and < 9')
+  }
+  if (0 > col || 9 <= col) {
+    throw RangeError('Col must be >= 0 and < 9')
+  }
   const idx = row * 9 + col
   return sudokuStr[idx]
 }
