@@ -65,32 +65,17 @@ describe('sudoku utility functions', () => {
       const expected = 9
       // exercise
       const result = getValueByRowCol(input, 8, 0)
+      console.log(result, input);
       // verify
       assert.equal(result, expected)
     })
-    it('returns the correct value for (4, 3) on unsolvedSudoku', () => {
-      
-    })
-    it('returns the correct value for (4, 3) on solvedSudoku', () => {
-      
-    })
-    it('throws out of bounds error for (-1, 0)', () => {
-      
-    })
-    it('throws out of bounds error for (0, -1)', () => {
-      
-    })
-    it('throws out of bounds error for (-1, -1)', () => {
-      
-    })
-    it('throws out of bounds error for (9, 0)', () => {
-      
-    })
-    it('throws out of bounds error for (0, 9)', () => {
-      
-    })
-    it('throws out of bounds error for (9, 9)', () => {
-      
-    })
+    it('returns the correct value for (4, 3) on unsolvedSudoku')
+    it('returns the correct value for (4, 3) on solvedSudoku')
+    it('throws out of bounds error for (-1, *)')
+    it('throws out of bounds error for (*, -1)')
+    it('throws out of bounds error for (-1, -1)')
+    it('throws out of bounds error for (9, *)')
+    it('throws out of bounds error for (*, 9)')
+    it('throws out of bounds error for (9, 9)')
   })
 })
