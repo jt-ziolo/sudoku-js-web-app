@@ -13,8 +13,16 @@ const getValueByRowCol = (sudokuStr, row, col) => {
   if (0 > col || 9 <= col) {
     throw RangeError('Col must be >= 0 and < 9')
   }
-  const idx = row * 9 + col
+  const idx = getIndexByRowCol(row, col)
   return sudokuStr[idx]
+}
+
+const getIndexByRowCol = (row, col) => {
+  return row * 9 + col
+}
+
+const getRowColByIndex = idx => {
+  return [Math.trunc(idx / 9), idx % 9]
 }
 
 const forExport = { getValueByRowCol }
