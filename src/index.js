@@ -84,6 +84,55 @@ const getInvalidIdxsByColsRule = sudokuStr => {
   // the following array represents all delta values which, when added to the
   // index of the topmost square in a column of the sudoku grid, will yield all
   // 9 squares within the column
+  const squareIdxDelta = [
+    getIndexByRowCol(0, 0),
+    getIndexByRowCol(1, 0),
+    getIndexByRowCol(2, 0),
+    getIndexByRowCol(3, 0),
+    getIndexByRowCol(4, 0),
+    getIndexByRowCol(5, 0),
+    getIndexByRowCol(6, 0),
+    getIndexByRowCol(7, 0),
+    getIndexByRowCol(8, 0)
+  ]
+  // the following array represents all indices of squares in the topmost
+  // row of the nine columns in the sudoku grid
+  const squareIdxsTopOnly = [
+    getIndexByRowCol(0, 0),
+    getIndexByRowCol(0, 1),
+    getIndexByRowCol(0, 2),
+    getIndexByRowCol(0, 3),
+    getIndexByRowCol(0, 4),
+    getIndexByRowCol(0, 5),
+    getIndexByRowCol(0, 6),
+    getIndexByRowCol(0, 7),
+    getIndexByRowCol(0, 8)
+  ]
+
+  // accumulate invalid indices to return at the end of the function using a
+  // set to guard against duplicate indices
+  const invalidIdxs = new Set()
+
+  for (let start of squareIdxsTopOnly) {
+    const idxsThisColumn = {}
+    for (let delta of squareIdxDelta) {
+      const nextIdx = start + delta
+      const next = sudokuStr[nextIdx]
+      if (next === '.') {
+        continue
+      }
+      if (idxsThisColumn.hasOwnProperty(next)) {
+        idxsThisColumn[next].push(nextIdx)
+        for (const idx of idxsThisColumn[next]) {
+          invalidIdxs.add(idx)
+        }
+        continue
+      }
+      idxsThisColumn[next] = [nextIdx]
+    }
+  }
+
+  return invalidIdxs
 }
 
 const getInvalidIdxsBySquaresRule = sudokuStr => {
