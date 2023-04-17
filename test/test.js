@@ -10,6 +10,50 @@ const getEmptyIdxs = sudokuStr => {
   throw Error('not implemented')
 }
 
+const illegalSudokuStrTooShort = `
+  1.. 456 789
+  234 567 891
+  345 678 912
+
+  456 789 123
+  567 891 234
+  678 912 345
+
+  789 123 456
+  891 234 567
+  912 345 67
+`
+
+const illegalSudokuStrTooLong = `
+  1.. 456 789
+  234 567 891
+  345 678 912
+
+  456 789 123
+  567 891 234
+  678 912 345
+
+  789 123 456
+  891 234 567
+  912 345 678
+
+  1
+`
+
+const illegalSudokuStrDigits = `
+  1.. 456 789
+  234 56M 891
+  345 678 912
+
+  456 789 123
+  567 891 234
+  67N 912 345
+
+  789 123 456
+  8K1 234 567
+  912 345 678
+`
+
 function trimSudoku (sudoku) {
   let temp = ''
   for (let n of sudoku) {
@@ -126,9 +170,62 @@ describe('get empty indices and check if sudoku is filled', () => {
       // verify
       assert.isStrictEqual(result, expected)
     })
-    it('includes all empty indices of unfilledSudoku')
-    it('does not include filled indices of unfilledSudoku')
-    it('throws an error when provided with an invalid sudoku string') // TODO: add for other tests
+    it('includes all empty indices of unfilledSudoku', () => {
+      // setup
+      const input = unfilledSudoku
+      const expected = new Set() // TODO: fill
+      // exercise
+      const result = getEmptyIdxs(input)
+      // verify
+      assert.isTrue(
+        isSuperSet(result, expected),
+        'lacks one or more of the expected empty indices'
+      )
+    })
+    it('does not include filled indices of unfilledSudoku', () => {
+      // setup
+      const input = unfilledSudoku
+      const unfilledIndices = new Set() // TODO: fill
+
+      const filledIndices = new Set()
+      for (let i = 0; i < 81; i++) {
+        if (unfilledIndices.has(i)) {
+          continue
+        }
+        filledIndices.add(i)
+      }
+      // exercise
+      const result = getEmptyIdxs(input)
+      // verify
+      for (const next of result) {
+        assert.isFalse(
+          filledIndices.has(next),
+          'contains one or more valid indices'
+        )
+      }
+    })
+    // TODO: add for other tests
+    it('throws an error when provided with an invalid sudoku string (too short)', () => {
+      const input = illegalSudokuStrTooShort
+      assert.throws(
+        () => getEmptyIdxs(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (too long)', () => {
+      const input = illegalSudokuStrTooLong
+      assert.throws(
+        () => getEmptyIdxs(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (illegal digits)', () => {
+      const input = illegalSudokuStrDigits
+      assert.throws(
+        () => getEmptyIdxs(input),
+        /Illegally formatted sudoku string/
+      )
+    })
   })
 })
 
