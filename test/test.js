@@ -92,6 +92,7 @@ describe('invalid indices for each rule', () => {
       const expected = []
       // exercise
       const result = getInvalidIdxsBySquaresRule(input)
+      console.log(result)
       // verify
       assert.strictEqual(result, expected)
     })
@@ -101,6 +102,18 @@ describe('invalid indices for each rule', () => {
 })
 
 describe('sudoku utility functions', () => {
+  describe('getRowColByIndex', () => {
+    it('is the inverse of getIndexByRowCol, returns original input', () => {
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          let idx = getIndexByRowCol(row, col)
+          let [resultRow, resultCol] = getRowColByIndex(idx)
+          assert.strictEqual(resultRow, row)
+          assert.strictEqual(resultCol, col)
+        }
+      }
+    })
+  })
   describe('getValueByRowCol and getIndexByRowCol', () => {
     it('returns the correct value for (0, 0) on unfilledSudoku', () => {
       // setup
