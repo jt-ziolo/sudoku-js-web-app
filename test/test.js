@@ -117,8 +117,7 @@ describe('invalid indices for each rule', () => {
     it('includes all invalid indices of invalidSudoku', () => {
       // setup
       const input = invalidSudoku
-      assert.isFalse(true) // TODO: forcing test red
-      const expected = new Set()
+      const expected = new Set([12, 16, 36, 38, 37, 39, 54, 59, 73, 76])
       // exercise
       const result = getInvalidIdxsByRowsRule(input)
       // verify
@@ -130,7 +129,7 @@ describe('invalid indices for each rule', () => {
     it('does not include valid indices of invalidSudoku', () => {
       // setup
       const input = invalidSudoku
-      const invalidIndices = new Set()
+      const invalidIndices = new Set([12, 16, 36, 38, 37, 39, 54, 59, 73, 76])
 
       const validIndices = new Set()
       for (let i = 0; i < 81; i++) {
