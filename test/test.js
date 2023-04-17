@@ -101,7 +101,7 @@ describe('invalid indices for each rule', () => {
     it('includes all invalid indices of invalidSudoku', () => {
       // setup
       const input = invalidSudoku
-      const expected = new Set([0, 20, 5, 23, 36, 38, 31, 39, 35, 52, 66, 76, 80]) // remove 80
+      const expected = new Set([0, 20, 5, 23, 36, 38, 31, 39, 35, 52, 66, 76])
       // exercise
       const result = getInvalidIdxsBySquaresRule(input)
       // verify
@@ -110,8 +110,39 @@ describe('invalid indices for each rule', () => {
         'lacks one or more of the expected invalid indices'
       )
     })
-    it('does not include valid indices of invalidSudoku')
-    it('does not find invalid indices in validSudoku')
+    it('does not include valid indices of invalidSudoku', () => {
+      // setup
+      const input = invalidSudoku
+      const invalidIndices = new Set([
+        0, 20, 5, 23, 36, 38, 31, 39, 35, 52, 66, 76
+      ])
+      const validIndices = new Set()
+      for (let i = 0; i < 81; i++) {
+        if (invalidIndices.has(i)) {
+          continue
+        }
+        validIndices.add(i)
+      }
+      validIndices.add(38) // TODO remove, forcing red
+      // exercise
+      const result = getInvalidIdxsBySquaresRule(input)
+      // verify
+      for (const next of result) {
+        assert.isFalse(
+          validIndices.has(next),
+          'contains one or more valid indices'
+        )
+      }
+    })
+    it('does not find invalid indices in validSudoku', () => {
+      // setup
+      const input = validSudoku
+      // exercise
+      const result = getInvalidIdxsBySquaresRule(input)
+      result.add(0) // TODO remove, forcing red
+      // verify
+      assert.isTrue(result.size === 0, 'contains one or more valid indices')
+    })
   })
 })
 
