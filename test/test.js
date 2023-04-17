@@ -123,7 +123,6 @@ describe('invalid indices for each rule', () => {
         }
         validIndices.add(i)
       }
-      validIndices.add(38) // TODO remove, forcing red
       // exercise
       const result = getInvalidIdxsBySquaresRule(input)
       // verify
@@ -139,7 +138,6 @@ describe('invalid indices for each rule', () => {
       const input = validSudoku
       // exercise
       const result = getInvalidIdxsBySquaresRule(input)
-      result.add(0) // TODO remove, forcing red
       // verify
       assert.isTrue(result.size === 0, 'contains one or more valid indices')
     })
