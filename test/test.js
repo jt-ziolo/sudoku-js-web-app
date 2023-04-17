@@ -6,7 +6,7 @@ const getRowColByIndex = exported.getRowColByIndex
 const getInvalidIdxsBySquaresRule = exported.getInvalidIdxsBySquaresRule
 const getInvalidIdxsByRowsRule = exported.getInvalidIdxsByRowsRule
 const getInvalidIdxsByColsRule = exported.getInvalidIdxsByColsRule
-const getEmptyIdxs = () => {
+const getEmptyIdxs = sudokuStr => {
   throw Error('not implemented')
 }
 
@@ -117,7 +117,15 @@ describe('test functions', () => {
 
 describe('get empty indices and check if sudoku is filled', () => {
   describe('getEmptyIdxs', () => {
-    it('returns an empty set for a filled sudoku')
+    it('returns an empty set for a filled sudoku', () => {
+      // setup
+      const input = filledSudoku
+      const expected = new Set()
+      // exercise
+      const result = getEmptyIdxs(input)
+      // verify
+      assert.isStrictEqual(result, expected)
+    })
     it('includes all empty indices of unfilledSudoku')
     it('does not include filled indices of unfilledSudoku')
     it('throws an error when provided with an invalid sudoku string') // TODO: add for other tests
