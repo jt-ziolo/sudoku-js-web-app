@@ -6,6 +6,9 @@ const getRowColByIndex = exported.getRowColByIndex
 const getInvalidIdxsBySquaresRule = exported.getInvalidIdxsBySquaresRule
 const getInvalidIdxsByRowsRule = exported.getInvalidIdxsByRowsRule
 const getInvalidIdxsByColsRule = exported.getInvalidIdxsByColsRule
+const getEmptyIdxs = () => {
+  throw Error('not implemented')
+}
 
 function trimSudoku (sudoku) {
   let temp = ''
@@ -109,6 +112,15 @@ describe('test functions', () => {
     it('returns true for [] as subset of [1. 2. 3. 4. 5]', () => {
       assert.isTrue(isSuperSet(new Set([1, 2, 3, 4, 5]), new Set()))
     })
+  })
+})
+
+describe('get empty indices and check if sudoku is filled', () => {
+  describe('getEmptyIdxs', () => {
+    it('returns an empty set for a filled sudoku')
+    it('includes all empty indices of unfilledSudoku')
+    it('does not include filled indices of unfilledSudoku')
+    it('throws an error when provided with an invalid sudoku string') // TODO: add for other tests
   })
 })
 
