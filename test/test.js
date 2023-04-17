@@ -87,17 +87,28 @@ let validSudoku = trimSudoku(`
   8.6 ... 942
 `)
 
+function isSuperSet (set, subset) {
+  for (const element of subset) {
+    if (!set.has(element)) {
+      return false
+    }
+  }
+  return true
+}
+
 describe('invalid indices for each rule', () => {
   describe('getInvalidIdxsBySquaresRule', () => {
     it('includes all invalid indices of invalidSudoku', () => {
       // setup
       const input = invalidSudoku
-      const expected = []
+      const expected = new Set([0, 20, 5, 23, 36, 38, 31, 39, 35, 52, 66, 76, 80]) // remove 80
       // exercise
       const result = getInvalidIdxsBySquaresRule(input)
-      console.log(result)
       // verify
-      assert.strictEqual(result, expected)
+      assert.isTrue(
+        isSuperSet(result, expected),
+        'lacks one or more of the expected invalid indices'
+      )
     })
     it('does not include valid indices of invalidSudoku')
     it('does not find invalid indices in validSudoku')
