@@ -1,6 +1,9 @@
 const assert = require('chai').assert
 const exported = require('../src/index.js')
 const getValueByRowCol = exported.getValueByRowCol
+const getIndexByRowCol = exported.getIndexByRowCol
+const getRowColByIndex = exported.getRowColByIndex
+const getInvalidIdxsBySquaresRule = exported.getInvalidIdxsBySquaresRule
 
 function trimSudoku (sudoku) {
   let temp = ''

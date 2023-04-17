@@ -25,6 +25,15 @@ const getRowColByIndex = idx => {
   return [Math.trunc(idx / 9), idx % 9]
 }
 
-const forExport = { getValueByRowCol }
+const getInvalidIdxsBySquaresRule = sudokuStr => {
+  return sudokuStr
+}
+
+const forExport = {
+  getIndexByRowCol,
+  getRowColByIndex,
+  getValueByRowCol,
+  getInvalidIdxsBySquaresRule
+}
 
 module.exports = forExport
