@@ -269,7 +269,6 @@ describe('sudoku utility functions', () => {
       const expected = '.'
       // exercise
       const result = getValueByRowCol(input, 0, 0)
-      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -279,7 +278,6 @@ describe('sudoku utility functions', () => {
       const expected = 1
       // exercise
       const result = getValueByRowCol(input, 0, 0)
-      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -289,7 +287,6 @@ describe('sudoku utility functions', () => {
       const expected = 9
       // exercise
       const result = getValueByRowCol(input, 8, 0)
-      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -299,7 +296,6 @@ describe('sudoku utility functions', () => {
       const expected = '.'
       // exercise
       const result = getValueByRowCol(input, 4, 3)
-      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
@@ -309,7 +305,6 @@ describe('sudoku utility functions', () => {
       const expected = 8
       // exercise
       const result = getValueByRowCol(input, 4, 3)
-      console.log(result, input)
       // verify
       assert.equal(result, expected)
     })
