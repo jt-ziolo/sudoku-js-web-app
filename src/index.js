@@ -25,6 +25,10 @@ const getRowColByIndex = idx => {
   return [Math.trunc(idx / 9), idx % 9]
 }
 
+const getInvalidIdxsByRowsRule = sudokuStr => {}
+
+const getInvalidIdxsByColsRule = sudokuStr => {}
+
 const getInvalidIdxsBySquaresRule = sudokuStr => {
   // the following array represents all delta values which, when added to the
   // index of the top left corner of a 3x3 square in the sudoku grid, will
@@ -84,6 +88,8 @@ const forExport = {
   getIndexByRowCol,
   getRowColByIndex,
   getValueByRowCol,
+  getInvalidIdxsByRowsRule,
+  getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule
 }
 
