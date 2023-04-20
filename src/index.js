@@ -231,11 +231,15 @@ const getEmptyIdxs = sudokuStr => {
   return result
 }
 
+const isFilled = sudokuStr => {
+}
+
 const forExport = {
   getIndexByRowCol,
   getRowColByIndex,
   getValueByRowCol,
   getEmptyIdxs,
+  isFilled,
   getInvalidIdxsByRowsRule,
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule

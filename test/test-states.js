@@ -1,5 +1,5 @@
 const assert = require('chai').assert
-const { getEmptyIdxs } = require('../src/index.js')
+const { getEmptyIdxs, isFilled } = require('../src/index.js')
 const {
   filledSudoku,
   unfilledSudoku,
@@ -10,6 +10,33 @@ const {
 const { isSuperSet, isEqualSet } = require('./test-helpers.js')
 
 describe('get empty indices and check if sudoku is filled', () => {
+  describe('isFilled', () => {
+    it('returns true for a filled sudoku', () => {
+      // setup
+      const input = filledSudoku
+      // exercise
+      const result = isFilled(input)
+      // verify
+      assert.isTrue(result)
+    })
+    it('returns false for an unfilled sudoku (many unfilled spots)', () => {
+      // setup
+      const input = unfilledSudoku
+      // exercise
+      const result = isFilled(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns false for an unfilled sudoku (one unfilled spot)', () => {
+      // setup
+      const input = filledSudoku
+      input[input.length - 1] = '.'
+      // exercise
+      const result = isFilled(input)
+      // verify
+      assert.isFalse(result)
+    })
+  })
   describe('getEmptyIdxs', () => {
     it('returns an empty set for a filled sudoku', () => {
       // setup
