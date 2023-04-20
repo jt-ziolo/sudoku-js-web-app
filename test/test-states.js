@@ -29,8 +29,8 @@ describe('get empty indices and check if sudoku is filled', () => {
     })
     it('returns false for an unfilled sudoku (one unfilled spot)', () => {
       // setup
-      const input = filledSudoku
-      input[input.length - 1] = '.'
+      let input = filledSudoku
+      input = input.slice(0, input.length - 1) + '.'
       // exercise
       const result = isFilled(input)
       // verify

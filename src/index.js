@@ -232,6 +232,8 @@ const getEmptyIdxs = sudokuStr => {
 }
 
 const isFilled = sudokuStr => {
+  const emptyIdxs = getEmptyIdxs(sudokuStr)
+  return emptyIdxs.size == 0
 }
 
 const forExport = {
