@@ -1,5 +1,5 @@
 const assert = require('chai').assert
-const exported = require('../src/index.js')
+const { getEmptyIdxs } = require('../src/index.js')
 const {
   filledSudoku,
   unfilledSudoku,
@@ -10,9 +10,9 @@ const {
 const { isSuperSet } = require('./test-helpers.js')
 
 // const getRowColByIndex = exported.getEmptyIdxs
-const getEmptyIdxs = sudokuStr => {
-  throw Error('not implemented')
-}
+// const getEmptyIdxs = sudokuStr => {
+//   throw Error('not implemented')
+// }
 
 describe('get empty indices and check if sudoku is filled', () => {
   describe('getEmptyIdxs', () => {
@@ -23,7 +23,7 @@ describe('get empty indices and check if sudoku is filled', () => {
       // exercise
       const result = getEmptyIdxs(input)
       // verify
-      assert.isStrictEqual(result, expected)
+      assert.strictEqual(result, expected)
     })
     it('includes all empty indices of unfilledSudoku', () => {
       // setup

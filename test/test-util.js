@@ -2,9 +2,15 @@ const assert = require('chai').assert
 const {
   getValueByRowCol,
   getIndexByRowCol,
-  getRowColByIndex
+  getRowColByIndex,
 } = require('../src/index.js')
-const { unfilledSudoku, filledSudoku } = require('./test-constants.js')
+const {
+  filledSudoku,
+  unfilledSudoku,
+  illegalSudokuStrDigits,
+  illegalSudokuStrTooLong,
+  illegalSudokuStrTooShort
+} = require('./test-constants.js')
 
 describe('sudoku utility functions', () => {
   describe('getRowColByIndex', () => {
