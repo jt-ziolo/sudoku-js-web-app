@@ -6,7 +6,7 @@ const getValueByRowCol = (sudokuStr, row, col) => {
   // 1, 1, 10
   // 1, 8, 17
   // x, y, x*9+y
-  if(!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
 
@@ -29,7 +29,7 @@ const getRowColByIndex = idx => {
 }
 
 const getInvalidIdxsByRowsRule = sudokuStr => {
-  if(!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
   // the following array represents all delta values which, when added to the
@@ -87,7 +87,7 @@ const getInvalidIdxsByRowsRule = sudokuStr => {
 }
 
 const getInvalidIdxsByColsRule = sudokuStr => {
-  if(!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
   // the following array represents all delta values which, when added to the
@@ -145,7 +145,7 @@ const getInvalidIdxsByColsRule = sudokuStr => {
 }
 
 const getInvalidIdxsBySquaresRule = sudokuStr => {
-  if(!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
   // the following array represents all delta values which, when added to the
@@ -202,12 +202,23 @@ const getInvalidIdxsBySquaresRule = sudokuStr => {
   return invalidIdxs
 }
 
+// Correctly formatted sudoku strings are 81 characters long and only contain
+// numeric digits 1-9 and '.'
 const isCorrectlyFormattedSudokuStr = sudokuStr => {
+  if (sudokuStr.length !== 81) {
+    return false
+  }
+  const validChars = '123456789.'
+  for (let nextChar of sudokuStr) {
+    if (!validChars.includes(nextChar)) {
+      return false
+    }
+  }
   return true
 }
 
 const getEmptyIdxs = sudokuStr => {
-  if(!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
 }
