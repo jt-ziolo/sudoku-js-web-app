@@ -221,6 +221,8 @@ const getEmptyIdxs = sudokuStr => {
   if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
     throw Error('Illegally formatted sudoku string')
   }
+  const result = new Set()
+  return result
 }
 
 const forExport = {

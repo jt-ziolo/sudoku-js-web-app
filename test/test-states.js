@@ -7,12 +7,7 @@ const {
   illegalSudokuStrTooLong,
   illegalSudokuStrTooShort
 } = require('./test-constants.js')
-const { isSuperSet } = require('./test-helpers.js')
-
-// const getRowColByIndex = exported.getEmptyIdxs
-// const getEmptyIdxs = sudokuStr => {
-//   throw Error('not implemented')
-// }
+const { isSuperSet, isEqualSet } = require('./test-helpers.js')
 
 describe('get empty indices and check if sudoku is filled', () => {
   describe('getEmptyIdxs', () => {
@@ -23,7 +18,10 @@ describe('get empty indices and check if sudoku is filled', () => {
       // exercise
       const result = getEmptyIdxs(input)
       // verify
-      assert.strictEqual(result, expected)
+      assert.isTrue(
+        isEqualSet(result, expected),
+        'not equal'
+      )
     })
     it('includes all empty indices of unfilledSudoku', () => {
       // setup
@@ -36,13 +34,14 @@ describe('get empty indices and check if sudoku is filled', () => {
         isSuperSet(result, expected),
         'lacks one or more of the expected empty indices'
       )
+      throw Error('not implemented')
     })
     it('does not include filled indices of unfilledSudoku', () => {
       // setup
       const input = unfilledSudoku
       const unfilledIndices = new Set() // TODO: fill
 
-      const filledIndices = new Set()
+      const filledIndices = new Set()  
       for (let i = 0; i < 81; i++) {
         if (unfilledIndices.has(i)) {
           continue
@@ -58,8 +57,8 @@ describe('get empty indices and check if sudoku is filled', () => {
           'contains one or more valid indices'
         )
       }
+      throw Error('not implemented')
     })
-    // TODO: add for other tests
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort
       assert.throws(
