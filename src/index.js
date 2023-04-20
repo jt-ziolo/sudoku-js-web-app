@@ -6,9 +6,8 @@ const getValueByRowCol = (sudokuStr, row, col) => {
   // 1, 1, 10
   // 1, 8, 17
   // x, y, x*9+y
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+
+  validateSudokuStr(sudokuStr)
 
   if (0 > row || 9 <= row) {
     throw RangeError('Row must be >= 0 and < 9')
@@ -29,9 +28,8 @@ const getRowColByIdx = idx => {
 }
 
 const getInvalidIdxsByRowsRule = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   // the following array represents all delta values which, when added to the
   // index of the leftmost square in a row of the sudoku grid, will yield all
   // 9 squares within the row
@@ -87,9 +85,8 @@ const getInvalidIdxsByRowsRule = sudokuStr => {
 }
 
 const getInvalidIdxsByColsRule = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   // the following array represents all delta values which, when added to the
   // index of the topmost square in a column of the sudoku grid, will yield all
   // 9 squares within the column
@@ -145,9 +142,8 @@ const getInvalidIdxsByColsRule = sudokuStr => {
 }
 
 const getInvalidIdxsBySquaresRule = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   // the following array represents all delta values which, when added to the
   // index of the top left corner of a 3x3 square in the sudoku grid, will
   // yield all 9 squares within the 3x3 square
@@ -204,23 +200,26 @@ const getInvalidIdxsBySquaresRule = sudokuStr => {
 
 // Correctly formatted sudoku strings are 81 characters long and only contain
 // numeric digits 1-9 and '.'
-const isCorrectlyFormattedSudokuStr = sudokuStr => {
+const validateSudokuStr = sudokuStr => {
   if (sudokuStr.length !== 81) {
-    return false
+    throw Error(
+      `Illegally formatted sudoku string, length is ${sudokuStr.length}, !== 81`
+    )
   }
   const validChars = '123456789.'
   for (let nextChar of sudokuStr) {
     if (!validChars.includes(nextChar)) {
-      return false
+      throw Error(
+        `Illegally formatted sudoku string, bad character ${nextChar}`
+      )
     }
   }
   return true
 }
 
 const getEmptyIdxs = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   const result = new Set()
   for (let i = 0; i < sudokuStr.length; i++) {
     const nextChar = sudokuStr[i]
@@ -232,17 +231,15 @@ const getEmptyIdxs = sudokuStr => {
 }
 
 const isFilled = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   const emptyIdxs = getEmptyIdxs(sudokuStr)
   return emptyIdxs.size == 0
 }
 
 const isValid = sudokuStr => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
-  }
+  validateSudokuStr(sudokuStr)
+
   if (getInvalidIdxsByColsRule(sudokuStr).size != 0) {
     return false
   }
