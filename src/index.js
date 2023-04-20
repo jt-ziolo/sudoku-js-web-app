@@ -232,11 +232,27 @@ const getEmptyIdxs = sudokuStr => {
 }
 
 const isFilled = sudokuStr => {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+    throw Error('Illegally formatted sudoku string')
+  }
   const emptyIdxs = getEmptyIdxs(sudokuStr)
   return emptyIdxs.size == 0
 }
 
 const isValid = sudokuStr => {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+    throw Error('Illegally formatted sudoku string')
+  }
+  if (getInvalidIdxsByColsRule(sudokuStr).size != 0) {
+    return false
+  }
+  if (getInvalidIdxsByRowsRule(sudokuStr).size != 0) {
+    return false
+  }
+  if (getInvalidIdxsBySquaresRule(sudokuStr).size != 0) {
+    return false
+  }
+  return true
 }
 
 const forExport = {

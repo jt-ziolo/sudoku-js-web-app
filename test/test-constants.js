@@ -110,18 +110,61 @@ const solvedSudoku = trimSudoku(`
   856 713 942
 `)
 
-const invalidRowSudoku = solvedSudoku
-invalidRowSudoku[0] = 1
-invalidRowSudoku[getIndexByRowCol(1, 0)] = '.'
+const partiallySolvedSudoku = trimSudoku(`
+  725 .39 684
+  198 456 237
+  .63 8.7 591
 
-const invalidColSudoku = solvedSudoku
-invalidColSudoku[0] = 5
-invalidColSudoku[getIndexByRowCol(0, 2)] = '.'
+  .72 398 ..6
+  689 5.. 723
+  341 672 859
 
-const invalidSquareSudoku = solvedSudoku
-invalidSquareSudoku[0] = 3
-invalidSquareSudoku[getIndexByRowCol(0, 4)] = '.'
-invalidSquareSudoku[getIndexByRowCol(5, 0)] = '.'
+  .37 984 .65
+  9.4 .6. 378
+  8.6 713 942
+`)
+
+const invalidSquareSudoku = trimSudoku(`
+  325 1.9 684
+  198 456 237
+  463 827 591
+
+  572 398 416
+  689 541 723
+  .41 672 859
+
+  237 984 165
+  914 265 378
+  856 713 942
+`)
+
+const invalidColSudoku = trimSudoku(`
+  52. 139 684
+  198 456 237
+  463 827 591
+
+  572 398 416
+  689 541 723
+  341 672 859
+
+  237 984 165
+  914 265 378
+  856 713 942
+`)
+
+const invalidRowSudoku = trimSudoku(`
+  125 139 684
+  .98 456 237
+  463 827 591
+
+  572 398 416
+  689 541 723
+  341 672 859
+
+  237 984 165
+  914 265 378
+  856 713 942
+`)
 
 // Variant of solvedSudoku, not guaranteed to have one unique solution, but is
 // guaranteed to be valid
@@ -145,6 +188,7 @@ const forExport = {
   invalidColSudoku,
   invalidRowSudoku,
   invalidSquareSudoku,
+  partiallySolvedSudoku,
   filledSudoku,
   unfilledSudoku,
   solvedSudoku,

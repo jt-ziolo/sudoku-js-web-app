@@ -9,6 +9,7 @@ const {
   invalidColSudoku,
   invalidRowSudoku,
   invalidSquareSudoku,
+  partiallySolvedSudoku,
   solvedSudoku
 } = require('./test-constants.js')
 const { isSuperSet, isEqualSet } = require('./test-helpers.js')
@@ -41,11 +42,7 @@ describe('check if sudoku is valid', () => {
     })
     it('returns true for a sudoku meeting all rules, including one that is not filled', () => {
       // setup
-      const input = solvedSudoku
-      input[80] = '.'
-      input[60] = '.'
-      input[30] = '.'
-      input[10] = '.'
+      const input = partiallySolvedSudoku
       // exercise
       const result = isValid(input)
       // verify
