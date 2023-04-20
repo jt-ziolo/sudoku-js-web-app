@@ -222,6 +222,12 @@ const getEmptyIdxs = sudokuStr => {
     throw Error('Illegally formatted sudoku string')
   }
   const result = new Set()
+  for (let i = 0; i < sudokuStr.length; i++) {
+    const nextChar = sudokuStr[i]
+    if (nextChar == '.') {
+      result.add(i)
+    }
+  }
   return result
 }
 

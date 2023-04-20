@@ -18,15 +18,12 @@ describe('get empty indices and check if sudoku is filled', () => {
       // exercise
       const result = getEmptyIdxs(input)
       // verify
-      assert.isTrue(
-        isEqualSet(result, expected),
-        'not equal'
-      )
+      assert.isTrue(isEqualSet(result, expected), 'not equal')
     })
     it('includes all empty indices of unfilledSudoku', () => {
       // setup
       const input = unfilledSudoku
-      const expected = new Set() // TODO: fill
+      const expected = new Set([0, 12, 39, 43, 64, 79])
       // exercise
       const result = getEmptyIdxs(input)
       // verify
@@ -34,14 +31,13 @@ describe('get empty indices and check if sudoku is filled', () => {
         isSuperSet(result, expected),
         'lacks one or more of the expected empty indices'
       )
-      throw Error('not implemented')
     })
     it('does not include filled indices of unfilledSudoku', () => {
       // setup
       const input = unfilledSudoku
-      const unfilledIndices = new Set() // TODO: fill
+      const unfilledIndices = new Set([0, 12, 39, 43, 64, 79])
 
-      const filledIndices = new Set()  
+      const filledIndices = new Set()
       for (let i = 0; i < 81; i++) {
         if (unfilledIndices.has(i)) {
           continue
@@ -57,7 +53,6 @@ describe('get empty indices and check if sudoku is filled', () => {
           'contains one or more valid indices'
         )
       }
-      throw Error('not implemented')
     })
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort
