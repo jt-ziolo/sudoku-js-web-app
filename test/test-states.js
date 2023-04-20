@@ -1,25 +1,64 @@
 const assert = require('chai').assert
-const { getEmptyIdxs, isFilled, isVaild } = require('../src/index.js')
+const { getEmptyIdxs, isFilled, isValid } = require('../src/index.js')
 const {
   filledSudoku,
   unfilledSudoku,
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
-  illegalSudokuStrTooShort
+  illegalSudokuStrTooShort,
+  invalidColSudoku,
+  invalidRowSudoku,
+  invalidSquareSudoku,
+  solvedSudoku
 } = require('./test-constants.js')
 const { isSuperSet, isEqualSet } = require('./test-helpers.js')
 
 describe('check if sudoku is valid', () => {
   describe('isValid', () => {
-    it('returns false for a sudoku not meeting the squares rule')
-    it('returns false for a sudoku not meeting the rows rule')
-    it('returns false for a sudoku not meeting the cols rule')
-    it(
-      'returns true for a sudoku meeting all rules, including one that is not filled'
-    )
-    it(
-      'returns true for a sudoku meeting all rules, including one that is filled'
-    )
+    it('returns false for a sudoku not meeting the squares rule', () => {
+      // setup
+      const input = invalidSquareSudoku
+      // exercise
+      const result = isValid(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns false for a sudoku not meeting the rows rule', () => {
+      // setup
+      const input = invalidRowSudoku
+      // exercise
+      const result = isValid(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns false for a sudoku not meeting the cols rule', () => {
+      // setup
+      const input = invalidColSudoku
+      // exercise
+      const result = isValid(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns true for a sudoku meeting all rules, including one that is not filled', () => {
+      // setup
+      const input = solvedSudoku
+      input[80] = '.'
+      input[60] = '.'
+      input[30] = '.'
+      input[10] = '.'
+      // exercise
+      const result = isValid(input)
+      // verify
+      assert.isTrue(result)
+    })
+    it('returns true for a sudoku meeting all rules, including one that is filled', () => {
+      // setup
+      const input = solvedSudoku
+      // exercise
+      const result = isValid(input)
+      // verify
+      assert.isTrue(result)
+    })
   })
 })
 describe('get empty indices and check if sudoku is filled', () => {

@@ -1,3 +1,5 @@
+const { getIndexByRowCol } = require('../src/index.js')
+
 function trimSudoku (sudoku) {
   let temp = ''
   for (let n of sudoku) {
@@ -108,6 +110,19 @@ const solvedSudoku = trimSudoku(`
   856 713 942
 `)
 
+const invalidRowSudoku = solvedSudoku
+invalidRowSudoku[0] = 1
+invalidRowSudoku[getIndexByRowCol(1, 0)] = '.'
+
+const invalidColSudoku = solvedSudoku
+invalidColSudoku[0] = 5
+invalidColSudoku[getIndexByRowCol(0, 2)] = '.'
+
+const invalidSquareSudoku = solvedSudoku
+invalidSquareSudoku[0] = 3
+invalidSquareSudoku[getIndexByRowCol(0, 4)] = '.'
+invalidSquareSudoku[getIndexByRowCol(5, 0)] = '.'
+
 // Variant of solvedSudoku, not guaranteed to have one unique solution, but is
 // guaranteed to be valid
 const validSudoku = trimSudoku(`
@@ -127,6 +142,9 @@ const validSudoku = trimSudoku(`
 const forExport = {
   validSudoku,
   invalidSudoku,
+  invalidColSudoku,
+  invalidRowSudoku,
+  invalidSquareSudoku,
   filledSudoku,
   unfilledSudoku,
   solvedSudoku,
