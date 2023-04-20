@@ -236,12 +236,16 @@ const isFilled = sudokuStr => {
   return emptyIdxs.size == 0
 }
 
+const isValid = sudokuStr => {
+}
+
 const forExport = {
   getIndexByRowCol,
   getRowColByIndex,
   getValueByRowCol,
   getEmptyIdxs,
   isFilled,
+  isValid,
   getInvalidIdxsByRowsRule,
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule

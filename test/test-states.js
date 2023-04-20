@@ -1,5 +1,5 @@
 const assert = require('chai').assert
-const { getEmptyIdxs, isFilled } = require('../src/index.js')
+const { getEmptyIdxs, isFilled, isVaild } = require('../src/index.js')
 const {
   filledSudoku,
   unfilledSudoku,
@@ -9,6 +9,19 @@ const {
 } = require('./test-constants.js')
 const { isSuperSet, isEqualSet } = require('./test-helpers.js')
 
+describe('check if sudoku is valid', () => {
+  describe('isValid', () => {
+    it('returns false for a sudoku not meeting the squares rule')
+    it('returns false for a sudoku not meeting the rows rule')
+    it('returns false for a sudoku not meeting the cols rule')
+    it(
+      'returns true for a sudoku meeting all rules, including one that is not filled'
+    )
+    it(
+      'returns true for a sudoku meeting all rules, including one that is filled'
+    )
+  })
+})
 describe('get empty indices and check if sudoku is filled', () => {
   describe('isFilled', () => {
     it('returns true for a filled sudoku', () => {
