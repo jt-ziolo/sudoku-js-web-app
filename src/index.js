@@ -1,21 +1,20 @@
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
-  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
-    throw Error('Illegally formatted sudoku string')
+  validateSudokuStr(sudokuStr)
+  
+  const targetIdx = getIdxByRowCol(row, col)
+
+  let result = ''
+  for (let i = 0; i < sudokuStr.length; i++) {
+    if (i == targetIdx) {
+      result += setTo
+      continue
+    }
+    result += sudokuStr[i]
   }
   
-  return sudokuStr
+  validateSudokuStr(result)
 
-  // const targetIdx = getIdxByRowCol(row, col)
-
-  // const result = ''
-  // for (let i = 0; i < sudokuStr.length; i++) {
-  //   if (i == targetIdx) {
-  //     result += setTo
-  //   }
-  //   result += sudokuStr[i]
-  // }
-
-  // return result
+  return result
 }
 
 const getValueByRowCol = (sudokuStr, row, col) => {

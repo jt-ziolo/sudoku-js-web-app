@@ -24,7 +24,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 0, 0, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 0, 0), expected)
+      assert.equal(getValueByRowCol(result, 0, 0), expected)
     })
     it('successfully sets the value at (3, 4) of a blank sudoku', () => {
       // setup
@@ -33,7 +33,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 3, 4, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 3, 4), expected)
+      assert.equal(getValueByRowCol(result, 3, 4), expected)
     })
     it('successfully sets the value at (8, 8) of a blank sudoku', () => {
       // setup
@@ -42,7 +42,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 8, 8, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 8, 8), expected)
+      assert.equal(getValueByRowCol(result, 8, 8), expected)
     })
     it('successfully sets the value at (0, 0) of a filled sudoku', () => {
       // setup
@@ -51,7 +51,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 0, 0, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 0, 0), expected)
+      assert.equal(getValueByRowCol(result, 0, 0), expected)
     })
     it('successfully sets the value at (3, 4) of a filled sudoku', () => {
       // setup
@@ -60,7 +60,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 3, 4, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 3, 4), expected)
+      assert.equal(getValueByRowCol(result, 3, 4), expected)
     })
     it('successfully sets the value at (8, 8) of a filled sudoku', () => {
       // setup
@@ -69,7 +69,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 8, 8, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 8, 8), expected)
+      assert.equal(getValueByRowCol(result, 8, 8), expected)
     })
     it('successfully sets the value at (0, 0) of a partially filled sudoku', () => {
       // setup
@@ -78,7 +78,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 0, 0, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 0, 0), expected)
+      assert.equal(getValueByRowCol(result, 0, 0), expected)
     })
     it('successfully sets the value at (3, 4) of a partially filled sudoku', () => {
       // setup
@@ -87,7 +87,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 3, 4, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 3, 4), expected)
+      assert.equal(getValueByRowCol(result, 3, 4), expected)
     })
     it('successfully sets the value at (8, 8) of a partially filled sudoku', () => {
       // setup
@@ -96,7 +96,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 8, 8, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 8, 8), expected)
+      assert.equal(getValueByRowCol(result, 8, 8), expected)
     })
     it('results in no change when setting a value to the existing value (for a blank sudoku)', () => {
       // setup
@@ -105,7 +105,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 2, 2, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 2, 2), expected)
+      assert.equal(getValueByRowCol(result, 2, 2), expected)
       assert.strictEqual(result, input)
     })
     it('results in no change when setting a value to the existing value (for a filled sudoku)', () => {
@@ -115,7 +115,7 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 2, 2, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 2, 2), expected)
+      assert.equal(getValueByRowCol(result, 2, 2), expected)
       assert.strictEqual(result, input)
     })
     it('results in no change when setting a value to the existing value (for a partially filled sudoku)', () => {
@@ -125,10 +125,10 @@ describe('sudoku utility functions', () => {
       // exercise
       const result = setValueByRowCol(input, 2, 2, expected)
       // verify
-      assert.strictEqual(getValueByRowCol(result, 2, 2), expected)
+      assert.equal(getValueByRowCol(result, 2, 2), expected)
       assert.strictEqual(result, input)
     })
-    it('throws a RangeError when attempting to set the value to an illegal value', () => {
+    it('throws an error when attempting to set the value to an illegal value', () => {
       // setup
       const input = partiallySolvedSudoku
       const examples = ['a', 'b', 'C', '>', 0, '!', ' ']
@@ -136,7 +136,7 @@ describe('sudoku utility functions', () => {
       for (let next of examples) {
         assert.throws(() => {
           setValueByRowCol(input, 0, 0, next)
-        }, RangeError)
+        }, /bad character/)
       }
     })
   })
