@@ -82,6 +82,20 @@ const unfilledSudoku = trimSudoku(`
   912 345 6.8
 `)
 
+const blankSudoku = trimSudoku(`
+  ... ... ...
+  ... ... ...
+  ... ... ...
+
+  ... ... ...
+  ... ... ...
+  ... ... ...
+
+  ... ... ...
+  ... ... ...
+  ... ... ...
+`)
+
 const invalidSudoku = trimSudoku(`
   1.. ..3 2..
   ... 41. .4.
@@ -194,7 +208,8 @@ const forExport = {
   solvedSudoku,
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
-  illegalSudokuStrTooShort
+  illegalSudokuStrTooShort,
+  blankSudoku
 }
 
 module.exports = forExport

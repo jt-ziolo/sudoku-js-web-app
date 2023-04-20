@@ -1,3 +1,23 @@
+const setValueByRowCol = (sudokuStr, row, col, setTo) => {
+  if (!isCorrectlyFormattedSudokuStr(sudokuStr)) {
+    throw Error('Illegally formatted sudoku string')
+  }
+  
+  return sudokuStr
+
+  // const targetIdx = getIdxByRowCol(row, col)
+
+  // const result = ''
+  // for (let i = 0; i < sudokuStr.length; i++) {
+  //   if (i == targetIdx) {
+  //     result += setTo
+  //   }
+  //   result += sudokuStr[i]
+  // }
+
+  // return result
+}
+
 const getValueByRowCol = (sudokuStr, row, col) => {
   // row, col, idx
   // 0, 0, 0
@@ -260,6 +280,7 @@ const forExport = {
   getIdxByRowCol,
   getRowColByIdx,
   getValueByRowCol,
+  setValueByRowCol,
   getEmptyIdxs,
   isFilled,
   isValid,
