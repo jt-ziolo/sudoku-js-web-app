@@ -1,8 +1,8 @@
 const assert = require('chai').assert
 const {
   getValueByRowCol,
-  getIndexByRowCol,
-  getRowColByIndex,
+  getIdxByRowCol,
+  getRowColByIdx,
 } = require('../src/index.js')
 const {
   filledSudoku,
@@ -13,19 +13,19 @@ const {
 } = require('./test-constants.js')
 
 describe('sudoku utility functions', () => {
-  describe('getRowColByIndex', () => {
-    it('is the inverse of getIndexByRowCol, returns original input', () => {
+  describe('getRowColByIdx', () => {
+    it('is the inverse of getIdxByRowCol, returns original input', () => {
       for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-          let idx = getIndexByRowCol(row, col)
-          let [resultRow, resultCol] = getRowColByIndex(idx)
+          let idx = getIdxByRowCol(row, col)
+          let [resultRow, resultCol] = getRowColByIdx(idx)
           assert.strictEqual(resultRow, row)
           assert.strictEqual(resultCol, col)
         }
       }
     })
   })
-  describe('getValueByRowCol and getIndexByRowCol', () => {
+  describe('getValueByRowCol and getIdxByRowCol', () => {
     it('returns the correct value for (0, 0) on unfilledSudoku', () => {
       // setup
       const input = unfilledSudoku

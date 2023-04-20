@@ -16,15 +16,15 @@ const getValueByRowCol = (sudokuStr, row, col) => {
   if (0 > col || 9 <= col) {
     throw RangeError('Col must be >= 0 and < 9')
   }
-  const idx = getIndexByRowCol(row, col)
+  const idx = getIdxByRowCol(row, col)
   return sudokuStr[idx]
 }
 
-const getIndexByRowCol = (row, col) => {
+const getIdxByRowCol = (row, col) => {
   return row * 9 + col
 }
 
-const getRowColByIndex = idx => {
+const getRowColByIdx = idx => {
   return [Math.trunc(idx / 9), idx % 9]
 }
 
@@ -36,28 +36,28 @@ const getInvalidIdxsByRowsRule = sudokuStr => {
   // index of the leftmost square in a row of the sudoku grid, will yield all
   // 9 squares within the row
   const squareIdxDelta = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(0, 1),
-    getIndexByRowCol(0, 2),
-    getIndexByRowCol(0, 3),
-    getIndexByRowCol(0, 4),
-    getIndexByRowCol(0, 5),
-    getIndexByRowCol(0, 6),
-    getIndexByRowCol(0, 7),
-    getIndexByRowCol(0, 8)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(0, 1),
+    getIdxByRowCol(0, 2),
+    getIdxByRowCol(0, 3),
+    getIdxByRowCol(0, 4),
+    getIdxByRowCol(0, 5),
+    getIdxByRowCol(0, 6),
+    getIdxByRowCol(0, 7),
+    getIdxByRowCol(0, 8)
   ]
   // the following array represents all indices of squares in the leftmost
   // column of the nine rows in the sudoku grid
   const squareIdxsLeftOnly = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(1, 0),
-    getIndexByRowCol(2, 0),
-    getIndexByRowCol(3, 0),
-    getIndexByRowCol(4, 0),
-    getIndexByRowCol(5, 0),
-    getIndexByRowCol(6, 0),
-    getIndexByRowCol(7, 0),
-    getIndexByRowCol(8, 0)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(1, 0),
+    getIdxByRowCol(2, 0),
+    getIdxByRowCol(3, 0),
+    getIdxByRowCol(4, 0),
+    getIdxByRowCol(5, 0),
+    getIdxByRowCol(6, 0),
+    getIdxByRowCol(7, 0),
+    getIdxByRowCol(8, 0)
   ]
 
   // accumulate invalid indices to return at the end of the function using a
@@ -94,28 +94,28 @@ const getInvalidIdxsByColsRule = sudokuStr => {
   // index of the topmost square in a column of the sudoku grid, will yield all
   // 9 squares within the column
   const squareIdxDelta = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(1, 0),
-    getIndexByRowCol(2, 0),
-    getIndexByRowCol(3, 0),
-    getIndexByRowCol(4, 0),
-    getIndexByRowCol(5, 0),
-    getIndexByRowCol(6, 0),
-    getIndexByRowCol(7, 0),
-    getIndexByRowCol(8, 0)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(1, 0),
+    getIdxByRowCol(2, 0),
+    getIdxByRowCol(3, 0),
+    getIdxByRowCol(4, 0),
+    getIdxByRowCol(5, 0),
+    getIdxByRowCol(6, 0),
+    getIdxByRowCol(7, 0),
+    getIdxByRowCol(8, 0)
   ]
   // the following array represents all indices of squares in the topmost
   // row of the nine columns in the sudoku grid
   const squareIdxsTopOnly = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(0, 1),
-    getIndexByRowCol(0, 2),
-    getIndexByRowCol(0, 3),
-    getIndexByRowCol(0, 4),
-    getIndexByRowCol(0, 5),
-    getIndexByRowCol(0, 6),
-    getIndexByRowCol(0, 7),
-    getIndexByRowCol(0, 8)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(0, 1),
+    getIdxByRowCol(0, 2),
+    getIdxByRowCol(0, 3),
+    getIdxByRowCol(0, 4),
+    getIdxByRowCol(0, 5),
+    getIdxByRowCol(0, 6),
+    getIdxByRowCol(0, 7),
+    getIdxByRowCol(0, 8)
   ]
 
   // accumulate invalid indices to return at the end of the function using a
@@ -152,28 +152,28 @@ const getInvalidIdxsBySquaresRule = sudokuStr => {
   // index of the top left corner of a 3x3 square in the sudoku grid, will
   // yield all 9 squares within the 3x3 square
   const squareIdxDelta = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(0, 1),
-    getIndexByRowCol(0, 2),
-    getIndexByRowCol(1, 0),
-    getIndexByRowCol(1, 1),
-    getIndexByRowCol(1, 2),
-    getIndexByRowCol(2, 0),
-    getIndexByRowCol(2, 1),
-    getIndexByRowCol(2, 2)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(0, 1),
+    getIdxByRowCol(0, 2),
+    getIdxByRowCol(1, 0),
+    getIdxByRowCol(1, 1),
+    getIdxByRowCol(1, 2),
+    getIdxByRowCol(2, 0),
+    getIdxByRowCol(2, 1),
+    getIdxByRowCol(2, 2)
   ]
   // the following array represents all indices of top left corners of the nine
   // 3x3 squares in the sudoku grid
   const squareIdxsTopLeftOnly = [
-    getIndexByRowCol(0, 0),
-    getIndexByRowCol(0, 3),
-    getIndexByRowCol(0, 6),
-    getIndexByRowCol(3, 0),
-    getIndexByRowCol(3, 3),
-    getIndexByRowCol(3, 6),
-    getIndexByRowCol(6, 0),
-    getIndexByRowCol(6, 3),
-    getIndexByRowCol(6, 6)
+    getIdxByRowCol(0, 0),
+    getIdxByRowCol(0, 3),
+    getIdxByRowCol(0, 6),
+    getIdxByRowCol(3, 0),
+    getIdxByRowCol(3, 3),
+    getIdxByRowCol(3, 6),
+    getIdxByRowCol(6, 0),
+    getIdxByRowCol(6, 3),
+    getIdxByRowCol(6, 6)
   ]
 
   // accumulate invalid indices to return at the end of the function using a
@@ -260,8 +260,8 @@ const isSolved = sudokuStr => {
 }
 
 const forExport = {
-  getIndexByRowCol,
-  getRowColByIndex,
+  getIdxByRowCol,
+  getRowColByIdx,
   getValueByRowCol,
   getEmptyIdxs,
   isFilled,

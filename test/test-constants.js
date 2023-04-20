@@ -1,4 +1,4 @@
-const { getIndexByRowCol } = require('../src/index.js')
+// const { getIdxByRowCol } = require('../src/index.js')
 
 function trimSudoku (sudoku) {
   let temp = ''
