@@ -10,16 +10,45 @@ const {
   invalidRowSudoku,
   invalidSquareSudoku,
   partiallySolvedSudoku,
-  solvedSudoku
+  solvedSudoku,
+  invalidSudoku
 } = require('./test-constants.js')
 const { isSuperSet, isEqualSet } = require('./test-helpers.js')
 
 describe('check if sudoku is solved (both valid and filled)', () => {
   describe('isSolved', () => {
-    it('returns true for a sudoku that is both valid and filled')
-    it('returns false for a sudoku that is valid but not filled')
-    it('returns false for a sudoku that is filled but not valid')
-    it('returns false for a sudoku that is neither filled nor valid')
+    it('returns true for a sudoku that is both valid and filled', () => {
+      // setup
+      const input = solvedSudoku
+      // exercise
+      const result = isSolved(input)
+      // verify
+      assert.isTrue(result)
+    })
+    it('returns false for a sudoku that is valid but not filled', () => {
+      // setup
+      const input = partiallySolvedSudoku
+      // exercise
+      const result = isSolved(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns false for a sudoku that is filled but not valid', () => {
+      // setup
+      const input = filledSudoku
+      // exercise
+      const result = isSolved(input)
+      // verify
+      assert.isFalse(result)
+    })
+    it('returns false for a sudoku that is neither filled nor valid', () => {
+      // setup
+      const input = unfilledSudoku
+      // exercise
+      const result = isSolved(input)
+      // verify
+      assert.isFalse(result)
+    })
   })
 })
 describe('check if sudoku is valid', () => {

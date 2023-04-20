@@ -255,7 +255,9 @@ const isValid = sudokuStr => {
   return true
 }
 
-const isSolved = sudokuStr => {}
+const isSolved = sudokuStr => {
+  return false
+}
 
 const forExport = {
   getIndexByRowCol,
