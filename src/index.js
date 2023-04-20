@@ -255,6 +255,8 @@ const isValid = sudokuStr => {
   return true
 }
 
+const isSolved = sudokuStr => {}
+
 const forExport = {
   getIndexByRowCol,
   getRowColByIndex,
@@ -262,6 +264,7 @@ const forExport = {
   getEmptyIdxs,
   isFilled,
   isValid,
+  isSolved,
   getInvalidIdxsByRowsRule,
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule
