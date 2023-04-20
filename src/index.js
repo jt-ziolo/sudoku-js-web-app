@@ -256,7 +256,7 @@ const isValid = sudokuStr => {
 }
 
 const isSolved = sudokuStr => {
-  return false
+  return isValid(sudokuStr) && isFilled(sudokuStr)
 }
 
 const forExport = {
