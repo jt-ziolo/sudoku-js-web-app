@@ -289,7 +289,9 @@ class SudokuGenLibAdapter {
   }
   generate (nGivens) {
     nGivens = nGivens || 50
-    return sudokuGenLib.generate(nGivens, this.rng)
+    const result = sudokuGenLib.generate(nGivens, this.rng)
+    validateSudokuStr(result)
+    return result
   }
   reset () {
     return new SudokuGenLibAdapter(this.seed)
