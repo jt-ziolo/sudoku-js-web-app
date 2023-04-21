@@ -285,7 +285,8 @@ export {
   isSolved,
   getInvalidIdxsByRowsRule,
   getInvalidIdxsByColsRule,
-  getInvalidIdxsBySquaresRule
+  getInvalidIdxsBySquaresRule,
+  validateSudokuStr
 }
 
 const positionalLikeness = (sudoku, sudokuOther) => {

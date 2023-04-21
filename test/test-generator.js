@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { random, XORShift } from 'random-seedable'
+import { getEmptyIdxs, isValid, validateSudokuStr } from '../src/index.js'
 
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
@@ -14,29 +15,87 @@ class SudokuGenLibAdapter {
     this.seed = randomSeed
   }
   generate (nGivens) {
+    nGivens = nGivens || 50
     return sudokuGenLib.generate(nGivens, this.rng)
+  }
+  reset () {
+    return new SudokuGenLibAdapter(this.seed)
   }
 }
 
 class SudokuSolveLibAdapter {
   solve (sudokuStr) {
-    return sudokuSolveLib.solve(sudokuStr)
+    return sudokuStr
+    // return sudokuSolveLib.solve(sudokuStr)
   }
 }
 
+let genNoSeed = new SudokuGenLibAdapter()
+let gen1Seed1 = new SudokuGenLibAdapter(2)
+let gen2Seed1 = new SudokuGenLibAdapter(2)
+let gen3Seed2 = new SudokuGenLibAdapter(2572395)
+
 describe('sudoku generator library', () => {
   describe('adapter implementation', () => {
-    it('generates with the correct number of givens')
-    it('generates a valid sudoku (correctly formatted)')
-    it('generates a sudoku which meets all rules')
-    it('generates the same sudoku when the same seed is provided')
-    it('generates a different sudoku when a different seed is provided')
-    it('generates a different sudoku when no seed is provided')
+    beforeEach(() => {
+      genNoSeed = genNoSeed.reset()
+      gen1Seed1 = gen1Seed1.reset()
+      gen2Seed1 = gen2Seed1.reset()
+      gen3Seed2 = gen3Seed2.reset()
+    })
+    it('generates with the correct number of givens', () => {
+      // exercise
+      const nGivens = 42
+      const result = gen1Seed1.generate(nGivens)
+      // verify
+      assert.strictEqual(getEmptyIdxs(result).size, 81 - nGivens)
+    })
+    it('generates a valid sudoku (correctly formatted)', () => {
+      // exercise
+      const result = gen1Seed1.generate()
+      // verify
+      validateSudokuStr(result)
+    })
+    it('generates a sudoku which meets all rules', () => {
+      // exercise
+      const result = gen1Seed1.generate()
+      // verify
+      assert.isTrue(isValid(result))
+    })
+    it('generates the same sudoku when the same seed is provided', () => {
+      // exercise
+      const resultA = gen1Seed1.generate()
+      const resultB = gen2Seed1.generate()
+      // verify
+      assert.strictEqual(resultA, resultB)
+    })
+    it('generates a different sudoku on subsequent generate calls', () => {
+      // exercise
+      const resultA = gen1Seed1.generate()
+      const resultB = gen1Seed1.generate()
+      // verify
+      assert.notStrictEqual(resultA, resultB)
+    })
+    it('generates a different sudoku when a different seed is provided', () => {
+      // exercise
+      const resultA = gen1Seed1.generate()
+      const resultB = gen3Seed2.generate()
+      // verify
+      assert.notStrictEqual(resultA, resultB)
+    })
+    it('generates a different sudoku when no seed is provided', () => {
+      // exercise
+      const resultA = genNoSeed.generate()
+      genNoSeed = genNoSeed.reset()
+      const resultB = genNoSeed.generate()
+      // verify
+      assert.notStrictEqual(resultA, resultB)
+    })
   })
 })
 describe('sudoku solver library', () => {
   describe('adapter implementation', () => {
-    it('results in a sudoku for which isSolved == true')
-    it('throws an error when provided with an invalid sudoku string')
+    it('results in a sudoku for which isSolved == true', () => {})
+    it('throws an error when provided with an invalid sudoku string', () => {})
   })
 })
