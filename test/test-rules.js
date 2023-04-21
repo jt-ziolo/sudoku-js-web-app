@@ -9,7 +9,9 @@ import {
   invalidSudoku,
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
-  illegalSudokuStrTooShort
+  illegalSudokuStrTooShort,
+  illegalSudokuStrWhitespaceSingle,
+  illegalSudokuStrWhitespaceNewline
 } from './test-constants.js'
 import { isSuperSet } from './test-helpers.js'
 
@@ -56,6 +58,20 @@ describe('invalid indices for each rule', () => {
       const result = getInvalidIdxsByRowsRule(input)
       // verify
       assert.isTrue(result.size === 0, 'contains one or more valid indices')
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, newline)', () => {
+      const input = illegalSudokuStrWhitespaceNewline
+      assert.throws(
+        () => getInvalidIdxsByRowsRule(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, single)', () => {
+      const input = illegalSudokuStrWhitespaceSingle
+      assert.throws(
+        () => getInvalidIdxsByRowsRule(input),
+        /Illegally formatted sudoku string/
+      )
     })
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort
@@ -121,6 +137,20 @@ describe('invalid indices for each rule', () => {
       const result = getInvalidIdxsByColsRule(input)
       // verify
       assert.isTrue(result.size === 0, 'contains one or more valid indices')
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, newline)', () => {
+      const input = illegalSudokuStrWhitespaceNewline
+      assert.throws(
+        () => getInvalidIdxsByColsRule(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, single)', () => {
+      const input = illegalSudokuStrWhitespaceSingle
+      assert.throws(
+        () => getInvalidIdxsByColsRule(input),
+        /Illegally formatted sudoku string/
+      )
     })
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort
@@ -188,6 +218,20 @@ describe('invalid indices for each rule', () => {
       const result = getInvalidIdxsBySquaresRule(input)
       // verify
       assert.isTrue(result.size === 0, 'contains one or more valid indices')
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, newline)', () => {
+      const input = illegalSudokuStrWhitespaceNewline
+      assert.throws(
+        () => getInvalidIdxsBySquaresRule(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, single)', () => {
+      const input = illegalSudokuStrWhitespaceSingle
+      assert.throws(
+        () => getInvalidIdxsBySquaresRule(input),
+        /Illegally formatted sudoku string/
+      )
     })
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort

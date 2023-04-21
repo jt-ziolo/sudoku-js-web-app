@@ -6,6 +6,9 @@ function trimSudoku (sudoku) {
   return temp
 }
 
+const illegalSudokuStrWhitespaceNewline = `1..456789234567891345678\n12456789123567891234678912345789123456891234567912345678`
+const illegalSudokuStrWhitespaceSingle = `1..456789 234567891345678912456789123567891234678912345789123456891234567912345678`
+
 const illegalSudokuStrTooShort = trimSudoku(`
   1.. 456 789
   234 567 891
@@ -207,5 +210,7 @@ export {
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
   illegalSudokuStrTooShort,
+  illegalSudokuStrWhitespaceNewline,
+  illegalSudokuStrWhitespaceSingle,
   blankSudoku
 }

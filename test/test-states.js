@@ -6,12 +6,13 @@ import {
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
   illegalSudokuStrTooShort,
+  illegalSudokuStrWhitespaceNewline,
+  illegalSudokuStrWhitespaceSingle,
   invalidColSudoku,
   invalidRowSudoku,
   invalidSquareSudoku,
   partiallySolvedSudoku,
-  solvedSudoku,
-  invalidSudoku
+  solvedSudoku
 } from './test-constants.js'
 import { isSuperSet, isEqualSet } from './test-helpers.js'
 
@@ -166,6 +167,20 @@ describe('get empty indices and check if sudoku is filled', () => {
           'contains one or more valid indices'
         )
       }
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, newline)', () => {
+      const input = illegalSudokuStrWhitespaceNewline
+      assert.throws(
+        () => getEmptyIdxs(input),
+        /Illegally formatted sudoku string/
+      )
+    })
+    it('throws an error when provided with an invalid sudoku string (whitespace, single)', () => {
+      const input = illegalSudokuStrWhitespaceSingle
+      assert.throws(
+        () => getEmptyIdxs(input),
+        /Illegally formatted sudoku string/
+      )
     })
     it('throws an error when provided with an invalid sudoku string (too short)', () => {
       const input = illegalSudokuStrTooShort
