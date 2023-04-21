@@ -1,39 +1,13 @@
 import { assert } from 'chai'
-import { random, XORShift } from 'random-seedable'
 import {
   getEmptyIdxs,
   isSolved,
   isValid,
-  validateSudokuStr
+  validateSudokuStr,
+  SudokuGenLibAdapter,
+  SudokuSolveLibAdapter
 } from '../src/index.js'
 import { solvedSudoku, partiallySolvedSudoku } from './test-constants.js'
-
-import sudokuGenLib from 'sudoku.utils'
-const sudokuSolveLib = sudokuGenLib
-
-class SudokuGenLibAdapter {
-  constructor (randomSeed) {
-    if (randomSeed) {
-      this.rng = new XORShift(randomSeed)
-    } else {
-      this.rng = random
-    }
-    this.seed = randomSeed
-  }
-  generate (nGivens) {
-    nGivens = nGivens || 50
-    return sudokuGenLib.generate(nGivens, this.rng)
-  }
-  reset () {
-    return new SudokuGenLibAdapter(this.seed)
-  }
-}
-
-class SudokuSolveLibAdapter {
-  solve (sudokuStr) {
-    return sudokuSolveLib.solve(sudokuStr)
-  }
-}
 
 let genNoSeed = new SudokuGenLibAdapter()
 let gen1Seed1 = new SudokuGenLibAdapter(2)

@@ -1,3 +1,7 @@
+import { random, XORShift } from 'random-seedable'
+import sudokuGenLib from 'sudoku.utils'
+const sudokuSolveLib = sudokuGenLib
+
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   validateSudokuStr(sudokuStr)
 
@@ -274,6 +278,45 @@ const isSolved = sudokuStr => {
   return isValid(sudokuStr) && isFilled(sudokuStr)
 }
 
+class SudokuGenLibAdapter {
+  constructor (randomSeed) {
+    if (randomSeed) {
+      this.rng = new XORShift(randomSeed)
+    } else {
+      this.rng = random
+    }
+    this.seed = randomSeed
+  }
+  generate (nGivens) {
+    nGivens = nGivens || 50
+    return sudokuGenLib.generate(nGivens, this.rng)
+  }
+  reset () {
+    return new SudokuGenLibAdapter(this.seed)
+  }
+}
+
+class SudokuSolveLibAdapter {
+  solve (sudokuStr) {
+    return sudokuSolveLib.solve(sudokuStr)
+  }
+}
+
+const positionalLikeness = (sudoku, sudokuOther) => {
+  // validateSudokuStr(sudoku)
+  // validateSudokuStr(sudokuOther)
+  // validation implies same length
+  // let counter = 0
+  // for (let i in sudoku) {
+  // const char1 = sudoku[i]
+  // const char2 = sudokuOther[i]
+  // if(char1 === char2) {
+  // counter += 1
+  // }
+  // }
+  // return counter / 81.0
+}
+
 export {
   getIdxByRowCol,
   getRowColByIdx,
@@ -286,20 +329,7 @@ export {
   getInvalidIdxsByRowsRule,
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule,
-  validateSudokuStr
-}
-
-const positionalLikeness = (sudoku, sudokuOther) => {
-  // validateSudokuStr(sudoku)
-  // validateSudokuStr(sudokuOther)
-  // validation implies same length
-  // let counter = 0
-  // for (let i in sudoku) {
-    // const char1 = sudoku[i]
-    // const char2 = sudokuOther[i]
-    // if(char1 === char2) {
-      // counter += 1
-    // }
-  // }
-  // return counter / 81.0
+  validateSudokuStr,
+  SudokuSolveLibAdapter,
+  SudokuGenLibAdapter
 }
