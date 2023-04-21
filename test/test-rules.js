@@ -1,17 +1,17 @@
-const assert = require('chai').assert
-const {
+import { assert } from 'chai'
+import {
   getInvalidIdxsBySquaresRule,
   getInvalidIdxsByRowsRule,
-  getInvalidIdxsByColsRule,
-} = require('../src/index.js')
-const {
+  getInvalidIdxsByColsRule
+} from '../src/index.js'
+import {
   validSudoku,
   invalidSudoku,
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
   illegalSudokuStrTooShort
-} = require('./test-constants.js')
-const { isSuperSet } = require('./test-helpers.js')
+} from './test-constants.js'
+import { isSuperSet } from './test-helpers.js'
 
 describe('invalid indices for each rule', () => {
   describe('getInvalidIdxsByRowsRule', () => {

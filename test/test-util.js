@@ -1,11 +1,11 @@
-const assert = require('chai').assert
-const {
+import { assert } from 'chai'
+import {
   getValueByRowCol,
   setValueByRowCol,
   getIdxByRowCol,
   getRowColByIdx
-} = require('../src/index.js')
-const {
+} from '../src/index.js'
+import {
   filledSudoku,
   unfilledSudoku,
   partiallySolvedSudoku,
@@ -13,7 +13,7 @@ const {
   illegalSudokuStrDigits,
   illegalSudokuStrTooLong,
   illegalSudokuStrTooShort
-} = require('./test-constants.js')
+} from './test-constants.js'
 
 describe('sudoku utility functions', () => {
   describe('setValueByRowCol', () => {

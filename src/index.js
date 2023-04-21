@@ -1,6 +1,6 @@
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   validateSudokuStr(sudokuStr)
-  
+
   const targetIdx = getIdxByRowCol(row, col)
 
   let result = ''
@@ -11,7 +11,7 @@ const setValueByRowCol = (sudokuStr, row, col, setTo) => {
     }
     result += sudokuStr[i]
   }
-  
+
   validateSudokuStr(result)
 
   return result
@@ -233,7 +233,6 @@ const validateSudokuStr = sudokuStr => {
       )
     }
   }
-  return true
 }
 
 const getEmptyIdxs = sudokuStr => {
@@ -275,7 +274,7 @@ const isSolved = sudokuStr => {
   return isValid(sudokuStr) && isFilled(sudokuStr)
 }
 
-const forExport = {
+export {
   getIdxByRowCol,
   getRowColByIdx,
   getValueByRowCol,
@@ -289,4 +288,17 @@ const forExport = {
   getInvalidIdxsBySquaresRule
 }
 
-module.exports = forExport
+const positionalLikeness = (sudoku, sudokuOther) => {
+  // validateSudokuStr(sudoku)
+  // validateSudokuStr(sudokuOther)
+  // validation implies same length
+  // let counter = 0
+  // for (let i in sudoku) {
+    // const char1 = sudoku[i]
+    // const char2 = sudokuOther[i]
+    // if(char1 === char2) {
+      // counter += 1
+    // }
+  // }
+  // return counter / 81.0
+}

@@ -1,4 +1,4 @@
-const assert = require('chai').assert
+import { assert } from 'chai'
 
 function isSuperSet (set, subset) {
   for (const element of subset) {
@@ -31,9 +31,7 @@ describe('test functions', () => {
   })
 })
 
-const forExport = {
+export {
   isSuperSet,
   isEqualSet
 }
-
-module.exports = forExport

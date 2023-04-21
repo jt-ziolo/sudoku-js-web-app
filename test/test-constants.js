@@ -1,5 +1,3 @@
-// const { getIdxByRowCol } = require('../src/index.js')
-
 function trimSudoku (sudoku) {
   let temp = ''
   for (let n of sudoku) {
@@ -196,7 +194,7 @@ const validSudoku = trimSudoku(`
   8.6 ... 942
 `)
 
-const forExport = {
+export {
   validSudoku,
   invalidSudoku,
   invalidColSudoku,
@@ -211,5 +209,3 @@ const forExport = {
   illegalSudokuStrTooShort,
   blankSudoku
 }
-
-module.exports = forExport

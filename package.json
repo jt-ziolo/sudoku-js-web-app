@@ -2,15 +2,28 @@
   "name": "sudokugenerator",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "nodemon --exec babel-node ./src/index.js",
+    "test": "mocha --require @babel/register",
+    "build": "babel src --out-dir ./dist --source-maps",
+    "serve": "node ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "random-seedable": "^1.0.8",
+    "sudoku.utils": "github:jt-ziolo/sudoku.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.4",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/register": "^7.21.0",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
-    "sudoku.utils": "^0.1.2"
+    "nodemon": "^2.0.22"
   }
 }

@@ -1,6 +1,6 @@
-const assert = require('chai').assert
-const { getEmptyIdxs, isFilled, isValid, isSolved } = require('../src/index.js')
-const {
+import { assert } from 'chai'
+import { getEmptyIdxs, isFilled, isValid, isSolved } from '../src/index.js'
+import {
   filledSudoku,
   unfilledSudoku,
   illegalSudokuStrDigits,
@@ -12,8 +12,8 @@ const {
   partiallySolvedSudoku,
   solvedSudoku,
   invalidSudoku
-} = require('./test-constants.js')
-const { isSuperSet, isEqualSet } = require('./test-helpers.js')
+} from './test-constants.js'
+import { isSuperSet, isEqualSet } from './test-helpers.js'
 
 describe('check if sudoku is solved (both valid and filled)', () => {
   describe('isSolved', () => {
