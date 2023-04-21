@@ -31,8 +31,7 @@ class SudokuGenLibAdapter {
 
 class SudokuSolveLibAdapter {
   solve (sudokuStr) {
-    return sudokuStr
-    // return sudokuSolveLib.solve(sudokuStr)
+    return sudokuSolveLib.solve(sudokuStr)
   }
 }
 
