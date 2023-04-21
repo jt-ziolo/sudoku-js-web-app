@@ -2,6 +2,14 @@ import { random, XORShift } from 'random-seedable'
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
 
+const initializeSudokuGrid = (doc) => {
+  // const gridDiv = doc.getElementById('sudoku')
+  // for (let i = 0; i < 81; i++) {
+  //   const nextNode = doc.createElement('p')
+  //   nextNode.innerHtml = ' '
+  //   gridDiv.appendChild(nextNode)
+  // }
+}
 
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   validateSudokuStr(sudokuStr)
@@ -333,7 +341,7 @@ export {
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule,
   validateSudokuStr,
+  initializeSudokuGrid,
   SudokuSolveLibAdapter,
-  SudokuGenLibAdapter,
-  SudokuRenderer
+  SudokuGenLibAdapter
 }
