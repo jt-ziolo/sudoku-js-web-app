@@ -2,6 +2,7 @@ import { random, XORShift } from 'random-seedable'
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
 
+
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   validateSudokuStr(sudokuStr)
 
@@ -333,5 +334,6 @@ export {
   getInvalidIdxsBySquaresRule,
   validateSudokuStr,
   SudokuSolveLibAdapter,
-  SudokuGenLibAdapter
+  SudokuGenLibAdapter,
+  SudokuRenderer
 }
