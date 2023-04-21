@@ -1,6 +1,12 @@
 import { assert } from 'chai'
 import { random, XORShift } from 'random-seedable'
-import { getEmptyIdxs, isValid, validateSudokuStr } from '../src/index.js'
+import {
+  getEmptyIdxs,
+  isSolved,
+  isValid,
+  validateSudokuStr
+} from '../src/index.js'
+import { solvedSudoku, partiallySolvedSudoku } from './test-constants.js'
 
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
@@ -34,6 +40,7 @@ let genNoSeed = new SudokuGenLibAdapter()
 let gen1Seed1 = new SudokuGenLibAdapter(2)
 let gen2Seed1 = new SudokuGenLibAdapter(2)
 let gen3Seed2 = new SudokuGenLibAdapter(2572395)
+const solver = new SudokuSolveLibAdapter()
 
 describe('sudoku generator library', () => {
   describe('adapter implementation', () => {
@@ -95,7 +102,25 @@ describe('sudoku generator library', () => {
 })
 describe('sudoku solver library', () => {
   describe('adapter implementation', () => {
-    it('results in a sudoku for which isSolved == true', () => {})
-    it('throws an error when provided with an invalid sudoku string', () => {})
+    it('solves partiallySolvedSudoku to yield solvedSudoku', () => {
+      // setup
+      const expected = solvedSudoku
+      // exercise
+      const result = solver.solve(partiallySolvedSudoku)
+      // verify
+      assert.strictEqual(result, expected)
+    })
+    it('results in a sudoku for which isSolved == true', () => {
+      // exercise
+      const result = solver.solve(partiallySolvedSudoku)
+      // verify
+      assert.isTrue(isSolved(result))
+    })
+    it('throws an error when provided with an invalid sudoku string', () => {
+      // exercise and verify
+      assert.throws(() => {
+        solver.solve('320582')
+      })
+    })
   })
 })
