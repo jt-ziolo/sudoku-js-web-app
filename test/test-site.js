@@ -2,15 +2,15 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { JSDOM } from 'jsdom'
 
-import { initializeSudokuGrid } from '../src/index.js'
+import { SudokuGrid } from '../src/index.js'
 
 const { document } = new JSDOM(`
     <!DOCTYPE html>
     <div id="sudoku"></div>
 `).window
 
-describe('construct sudoku grid', () => {
-  describe('initializeSudokuGrid', () => {
+describe('SudokuGrid', () => {
+  describe('constructor', () => {
     const sandbox = sinon.createSandbox()
     afterEach(() => {
       sandbox.restore()
@@ -18,14 +18,14 @@ describe('construct sudoku grid', () => {
     it('throws an error when the document object is null', () => {
       // exercise & verify
       assert.throws(() => {
-        initializeSudokuGrid(null)
+        new SudokuGrid(null)
       })
     })
     it("successfully calls getElementById with parameter 'sudoku'", () => {
       // setup
       sandbox.spy(document, 'getElementById')
       // exercise
-      initializeSudokuGrid(document)
+      new SudokuGrid(document)
       // verify
       assert.equal(document.getElementById.getCall(0).args[0], 'sudoku')
     })
@@ -33,7 +33,7 @@ describe('construct sudoku grid', () => {
       // setup
       sandbox.spy(document.getElementById('sudoku'), 'appendChild')
       // exercise
-      initializeSudokuGrid(document)
+      new SudokuGrid(document)
       // verify
       assert.strictEqual(
         document.getElementById('sudoku').appendChild.callCount,

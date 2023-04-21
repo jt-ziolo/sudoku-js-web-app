@@ -2,12 +2,42 @@ import { random, XORShift } from 'random-seedable'
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
 
-const initializeSudokuGrid = doc => {
-  const gridDiv = doc.getElementById('sudoku')
-  for (let i = 0; i < 81; i++) {
-    const nextNode = doc.createElement('p')
-    nextNode.innerHtml = ' '
-    gridDiv.appendChild(nextNode)
+class SudokuSquareNode {
+  constructor (idx, domElement) {
+    this.idx = idx
+    this.domElement = domElement
+  }
+  setHighlightedAsError (isHighlighted) {
+    this.domElement.className = 'filled-error'
+    throw Error('not implemented')
+  }
+  setValue (number) {
+    this.domElement.className = 'filled'
+    this.clearPencilMarks()
+    throw Error('not implemented')
+  }
+  togglePencilMark (number) {
+    throw Error('not implemented')
+  }
+  clearPencilMarks () {
+    throw Error('not implemented')
+  }
+}
+
+class SudokuGrid {
+  constructor (doc) {
+    this._values = []
+    const gridDiv = doc.getElementById('sudoku')
+    for (let i = 0; i < 81; i++) {
+      const nextElement = doc.createElement('li')
+      nextElement.innerHtml = ' '
+      gridDiv.appendChild(nextElement)
+      const nextNode = new SudokuSquareNode(i, nextElement)
+      this._values.push(nextNode)
+    }
+  }
+  getNodeByIdx (idx) {
+    return _values[idx]
   }
 }
 
@@ -341,7 +371,7 @@ export {
   getInvalidIdxsByColsRule,
   getInvalidIdxsBySquaresRule,
   validateSudokuStr,
-  initializeSudokuGrid,
+  SudokuGrid,
   SudokuSolveLibAdapter,
   SudokuGenLibAdapter
 }
