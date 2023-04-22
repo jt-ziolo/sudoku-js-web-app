@@ -27,14 +27,57 @@ class SudokuSquareNode {
 class SudokuGrid {
   constructor (doc) {
     this._values = []
-    const gridDiv = doc.getElementById('sudoku')
-    for (let i = 0; i < 81; i++) {
-      const nextElement = doc.createElement('li')
-      nextElement.innerHtml = ' '
-      gridDiv.appendChild(nextElement)
-      const nextNode = new SudokuSquareNode(i, nextElement)
-      this._values.push(nextNode)
+    this._values.length = 81
+    // const gridDiv = doc.getElementById('sudoku')
+    // const templateBigSquare = gridDiv.getElementById('template-big-square')
+    // templateBigSquare.removeAttribute('id')
+    // const templateSquare = templateBigSquare.getElementById('template-square')
+    // templateSquare.removeAttribute('id')
+
+    // the following array represents all delta values which, when added to the
+    // index of the top left corner of a 3x3 square in the sudoku grid, will
+    // yield all 9 squares within the 3x3 square
+    // TODO: candidate for refactor due to repetition
+    const squareIdxDelta = [
+      getIdxByRowCol(0, 0),
+      getIdxByRowCol(0, 1),
+      getIdxByRowCol(0, 2),
+      getIdxByRowCol(1, 0),
+      getIdxByRowCol(1, 1),
+      getIdxByRowCol(1, 2),
+      getIdxByRowCol(2, 0),
+      getIdxByRowCol(2, 1),
+      getIdxByRowCol(2, 2)
+    ]
+    // the following array represents all indices of top left corners of the nine
+    // 3x3 squares in the sudoku grid
+    const squareIdxsTopLeftOnly = [
+      getIdxByRowCol(0, 0),
+      getIdxByRowCol(0, 3),
+      getIdxByRowCol(0, 6),
+      getIdxByRowCol(3, 0),
+      getIdxByRowCol(3, 3),
+      getIdxByRowCol(3, 6),
+      getIdxByRowCol(6, 0),
+      getIdxByRowCol(6, 3),
+      getIdxByRowCol(6, 6)
+    ]
+
+    for (let i = 0; i < 9; i++) {
+      // const nextBigSquare = templateBigSquare.cloneNode(true)
+      const topLeftIdx = squareIdxsTopLeftOnly[i]
+      for (let j = 0; j < 9; j++) {
+        // const nextSquare = templateSquare.cloneNode(true)
+        // nextBigSquare.appendChild(nextSquare)
+        // const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
+        const nextIdx = topLeftIdx + squareIdxDelta[j]
+        const nextNode = new SudokuSquareNode(nextIdx, null)
+        this._values[nextIdx] = nextNode
+      }
+      // gridDiv.appendChild(nextBigSquare)
     }
+    // templateBigSquare.remove()
+    // templateSquare.remove()
   }
   getNodeByIdx (idx) {
     return _values[idx]
@@ -341,21 +384,6 @@ class SudokuSolveLibAdapter {
   solve (sudokuStr) {
     return sudokuSolveLib.solve(sudokuStr)
   }
-}
-
-const positionalLikeness = (sudoku, sudokuOther) => {
-  // validateSudokuStr(sudoku)
-  // validateSudokuStr(sudokuOther)
-  // validation implies same length
-  // let counter = 0
-  // for (let i in sudoku) {
-  // const char1 = sudoku[i]
-  // const char2 = sudokuOther[i]
-  // if(char1 === char2) {
-  // counter += 1
-  // }
-  // }
-  // return counter / 81.0
 }
 
 export {
