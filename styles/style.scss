@@ -14,6 +14,7 @@ html {
   grid-template: repeat(3, auto) / repeat(3, auto);
   justify-content: center;
   margin: 4rem 0;
+  user-select: none;
 
   ul {
     display: grid;
@@ -63,6 +64,10 @@ html {
 
 .hidden {
   visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }
 
 .highlight-none {

@@ -8,12 +8,14 @@ class SudokuSquareNode {
   constructor (idx, domElement) {
     this.idx = idx
     this.domElement = domElement
+    this._valueDomElement = domElement.getElementsByTagName('strong')[0]
     this._isFilled = false
     this._isError = false
     this._isSelected = false
     this._highlightType = 'none'
   }
-  updateCssClass () {
+  updateView () {
+    // update domElement css class name controlling background color
     if (
       (this._isSelected && this._highlightType === 'hover') ||
       this._highlightType === 'hover-selected'
@@ -23,40 +25,48 @@ class SudokuSquareNode {
       this._highlightType = 'selected'
     }
     this.domElement.className = `highlight-${this._highlightType}`
+    // update _valueDomElement css class names controlling visibility
+    let valueClassName = 'hidden'
+    if (this._isFilled) {
+      valueClassName = 'visible'
+    }
+    this._valueDomElement.className = valueClassName
+    // TODO: update pencilmark css class names controlling visibility
   }
   clearHighlights () {
     this._highlightType = 'none'
-    this.updateCssClass()
+    this.updateView()
   }
   setSelected (isSelected) {
     this._isSelected = isSelected
     if (this._isSelected) {
-      this.updateCssClass()
+      this.updateView()
       return
     }
     if (this._highlightType === 'hover-selected') {
-      this.updateCssClass()
+      this.updateView()
     } else {
       this.clearHighlights()
     }
   }
   setHighlightHoverOrFocused () {
     this._highlightType = 'hover'
-    this.updateCssClass()
+    this.updateView()
   }
   setTextColorError () {
     this._isError = true
-    this.updateCssClass()
+    this.updateView()
   }
   setValue (number) {
     if (number === '.') {
       this._isFilled = false
-      this.updateCssClass()
+      this.updateView()
       return
     }
-    this.clearPencilMarks()
+    // this.clearPencilMarks()
     this._isFilled = true
-    this.updateCssClass()
+    this._valueDomElement.innerHTML = number
+    this.updateView()
   }
   togglePencilMark (number) {
     throw Error('not implemented')
@@ -184,6 +194,7 @@ class SudokuGrid {
     if (this._selectedIdx === -1) {
       return
     }
+    this.getNodeByIdx(this._selectedIdx).setValue(key)
     console.log(`onNumberKeyDown ${key} ${isShiftKeyDown}`)
   }
   _onDeleteKeyDown () {

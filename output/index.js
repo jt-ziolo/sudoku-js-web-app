@@ -1034,37 +1034,46 @@ var SudokuSquareNode = /*#__PURE__*/function () {
     _classCallCheck(this, SudokuSquareNode);
     this.idx = idx;
     this.domElement = domElement;
+    this._valueDomElement = domElement.getElementsByTagName('strong')[0];
     this._isFilled = false;
     this._isError = false;
     this._isSelected = false;
     this._highlightType = 'none';
   }
   _createClass(SudokuSquareNode, [{
-    key: "updateCssClass",
-    value: function updateCssClass() {
+    key: "updateView",
+    value: function updateView() {
+      // update domElement css class name controlling background color
       if (this._isSelected && this._highlightType === 'hover' || this._highlightType === 'hover-selected') {
         this._highlightType = 'hover-selected';
       } else if (this._isSelected) {
         this._highlightType = 'selected';
       }
       this.domElement.className = "highlight-".concat(this._highlightType);
+      // update _valueDomElement css class names controlling visibility
+      var valueClassName = 'hidden';
+      if (this._isFilled) {
+        valueClassName = 'visible';
+      }
+      this._valueDomElement.className = valueClassName;
+      // TODO: update pencilmark css class names controlling visibility
     }
   }, {
     key: "clearHighlights",
     value: function clearHighlights() {
       this._highlightType = 'none';
-      this.updateCssClass();
+      this.updateView();
     }
   }, {
     key: "setSelected",
     value: function setSelected(isSelected) {
       this._isSelected = isSelected;
       if (this._isSelected) {
-        this.updateCssClass();
+        this.updateView();
         return;
       }
       if (this._highlightType === 'hover-selected') {
-        this.updateCssClass();
+        this.updateView();
       } else {
         this.clearHighlights();
       }
@@ -1073,25 +1082,26 @@ var SudokuSquareNode = /*#__PURE__*/function () {
     key: "setHighlightHoverOrFocused",
     value: function setHighlightHoverOrFocused() {
       this._highlightType = 'hover';
-      this.updateCssClass();
+      this.updateView();
     }
   }, {
     key: "setTextColorError",
     value: function setTextColorError() {
       this._isError = true;
-      this.updateCssClass();
+      this.updateView();
     }
   }, {
     key: "setValue",
     value: function setValue(number) {
       if (number === '.') {
         this._isFilled = false;
-        this.updateCssClass();
+        this.updateView();
         return;
       }
-      this.clearPencilMarks();
+      // this.clearPencilMarks()
       this._isFilled = true;
-      this.updateCssClass();
+      this._valueDomElement.innerHTML = number;
+      this.updateView();
     }
   }, {
     key: "togglePencilMark",
@@ -1211,6 +1221,7 @@ var SudokuGrid = /*#__PURE__*/function () {
       if (this._selectedIdx === -1) {
         return;
       }
+      this.getNodeByIdx(this._selectedIdx).setValue(key);
       console.log("onNumberKeyDown ".concat(key, " ").concat(isShiftKeyDown));
     }
   }, {
