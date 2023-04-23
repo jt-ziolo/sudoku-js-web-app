@@ -1,19 +1,40 @@
-import { random, XORShift } from 'random-seedable'
-import sudokuGenLib from 'sudoku.utils'
+import { random, XORShift } from '../node_modules/random-seedable/src/index.js'
+import sudokuGenLib from '../node_modules/sudoku.utils/build/sudoku.esm.js'
 const sudokuSolveLib = sudokuGenLib
 
 class SudokuSquareNode {
   constructor (idx, domElement) {
     this.idx = idx
-    this.domElement = domElement
+    this.domElement = domElement // TODO: consider removing .domElement
+    this._isFilled = false
+    this._highlightType = 'none'
   }
-  setHighlightedAsError (isHighlighted) {
-    this.domElement.className = 'filled-error'
+  updateClasses () {
+    this.domElement.className = `highlight-${this._highlightType}`
+  }
+  clearHighlights () {
+    this._highlightType = 'none'
+    this.updateClasses()
+  }
+  setHighlightSelected () {
+    throw Error('not implemented')
+  }
+  setHighlightHoverOrFocused () {
+    this._highlightType = 'hover'
+    this.updateClasses()
+  }
+  setHighlightError () {
     throw Error('not implemented')
   }
   setValue (number) {
-    this.domElement.className = 'filled'
     this.clearPencilMarks()
+    this._isFilled = true
+    this.updateClasses()
+    throw Error('not implemented')
+  }
+  clearValue () {
+    this._isFilled = false
+    this.updateClasses()
     throw Error('not implemented')
   }
   togglePencilMark (number) {
@@ -71,6 +92,7 @@ class SudokuGrid {
         const nextSquare = templateSquare.cloneNode(true)
         nextBigSquare.appendChild(nextSquare)
         const nextIdx = topLeftIdx + squareIdxDelta[j]
+        this.setupSquareEvents(nextSquare, nextIdx)
         const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
         this._values[nextIdx] = nextNode
       }
@@ -79,8 +101,31 @@ class SudokuGrid {
     templateBigSquare.remove()
     templateSquare.remove()
   }
+  setupSquareEvents (domElement, idx) {
+    domElement.addEventListener('mouseenter', _ => {
+      this.onMouseEnter(idx)
+    })
+    domElement.addEventListener('mouseleave', _ => {
+      this.onMouseLeave(idx)
+    })
+    // TODO: does not seem to be supported
+    // domElement.addEventListener('keydown', event => {
+    // this.onKeyDown(idx, event.key, event.shiftKey)
+    // })
+  }
+  onMouseEnter (idx) {
+    this.getNodeByIdx(idx).setHighlightHoverOrFocused()
+    // console.log(`onMouseEnter ${idx}`)
+  }
+  onMouseLeave (idx) {
+    this.getNodeByIdx(idx).clearHighlights()
+    // console.log(`onMouseLeave ${idx}`)
+  }
+  onKeyDown (idx, key, isShiftKeyDown) {
+    console.log(`onKeyDown ${idx} ${key} ${isShiftKeyDown}`)
+  }
   getNodeByIdx (idx) {
-    return _values[idx]
+    return this._values[idx]
   }
 }
 
@@ -404,3 +449,7 @@ export {
   SudokuSolveLibAdapter,
   SudokuGenLibAdapter
 }
+
+// Site setup
+// TODO: move to a separate file and update index.html reference
+const grid = new SudokuGrid(document)

@@ -54,4 +54,14 @@ html {
   visibility: hidden;
 }
 
+.highlight-none {
+  background-color: transparent;
+  transition: background-color 100ms ease;
+}
+
+.highlight-hover {
+  background-color: #d0d0d0;
+  transition: background-color 50ms ease-in;
+}
+
 /*# sourceMappingURL=style.css.map */
