@@ -42,9 +42,31 @@ describe('SudokuGrid', () => {
         81
       )
     })
-    it('populates _values array with 81 squares')
-    it(
-      'populates _values array in order, the idx fields of the nodes match their _values idx'
-    )
+    describe('_values array post-initialization', () => {
+      it('contains elements of type SudokuSquareNode')
+      it('contains nodes for which domElement is truthy')
+      it('contains 81 truthy elements', () => {
+        // setup & exercise
+        const grid = new SudokuGrid(document)
+        let count = 0
+        for (let i of grid._values) {
+          if (i) {
+            count += 1
+          }
+        }
+        // verify
+        assert.strictEqual(count, 81)
+      })
+      it('is in order, the idx fields of the nodes match their _values idx', () => {
+        // NOTE: will pass even if the _values array is empty
+        // setup & exercise
+        const grid = new SudokuGrid(document)
+        for (let arrIdx in grid._values) {
+          const storedIdx = grid._values[arrIdx].idx
+          // verify
+          assert.equal(storedIdx, arrIdx)
+        }
+      })
+    })
   })
 })
