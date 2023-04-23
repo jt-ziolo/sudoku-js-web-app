@@ -4,14 +4,50 @@ import { JSDOM } from 'jsdom'
 
 import { SudokuGrid, SudokuSquareNode } from '../src/index.js'
 
-const { document } = new JSDOM(`
-    <!DOCTYPE html>
-    <div id="sudoku"></div>
-`).window
+let document = new JSDOM(`
+  <!DOCTYPE html>
+  <div id="sudoku"></div>
+  <ul id="template-big-square"></ul>
+  <li id="template-square">
+    <div class="pencilmarks">
+      <sub class="hidden">1</sub>
+      <sub class="hidden">2</sub>
+      <sub class="hidden">3</sub>
+      <sub class="hidden">4</sub>
+      <sub class="hidden">5</sub>
+      <sub class="hidden">6</sub>
+      <sub class="hidden">7</sub>
+      <sub class="hidden">8</sub>
+      <sub class="hidden">9</sub>
+    </div>
+    <strong class="hidden"></strong>
+  </li>
+`).window.document
 
 describe('SudokuGrid', () => {
   describe('constructor', () => {
     const sandbox = sinon.createSandbox()
+    beforeEach(() => {
+      document = new JSDOM(`
+        <!DOCTYPE html>
+        <div id="sudoku"></div>
+        <ul id="template-big-square"></ul>
+        <li id="template-square">
+          <div class="pencilmarks">
+            <sub class="hidden">1</sub>
+            <sub class="hidden">2</sub>
+            <sub class="hidden">3</sub>
+            <sub class="hidden">4</sub>
+            <sub class="hidden">5</sub>
+            <sub class="hidden">6</sub>
+            <sub class="hidden">7</sub>
+            <sub class="hidden">8</sub>
+            <sub class="hidden">9</sub>
+          </div>
+          <strong class="hidden"></strong>
+        </li>
+      `).window.document
+    })
     afterEach(() => {
       sandbox.restore()
     })
@@ -22,7 +58,6 @@ describe('SudokuGrid', () => {
       })
     })
     it("successfully calls getElementById with parameter 'sudoku'", () => {
-      // TODO: modify to align with new functionality
       // setup
       sandbox.spy(document, 'getElementById')
       // exercise
@@ -30,8 +65,7 @@ describe('SudokuGrid', () => {
       // verify
       assert.equal(document.getElementById.getCall(0).args[0], 'sudoku')
     })
-    it('successfully calls appendChild 81 times', () => {
-      // TODO: modify to align with new functionality
+    it('successfully calls appendChild 9 times (9 3x3 squares)', () => {
       // setup
       sandbox.spy(document.getElementById('sudoku'), 'appendChild')
       // exercise
@@ -39,7 +73,7 @@ describe('SudokuGrid', () => {
       // verify
       assert.strictEqual(
         document.getElementById('sudoku').appendChild.callCount,
-        81
+        9
       )
     })
     describe('_values array post-initialization', () => {

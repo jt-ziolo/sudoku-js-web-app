@@ -31,9 +31,9 @@ class SudokuGrid {
     this._values.length = 81
 
     const gridDiv = doc.getElementById('sudoku')
-    const templateBigSquare = gridDiv.getElementById('template-big-square')
+    const templateBigSquare = doc.getElementById('template-big-square')
     templateBigSquare.removeAttribute('id')
-    const templateSquare = templateBigSquare.getElementById('template-square')
+    const templateSquare = doc.getElementById('template-square')
     templateSquare.removeAttribute('id')
 
     // the following array represents all delta values which, when added to the
@@ -71,8 +71,8 @@ class SudokuGrid {
       for (let j = 0; j < 9; j++) {
         const nextSquare = templateSquare.cloneNode(true)
         nextBigSquare.appendChild(nextSquare)
-        const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
         const nextIdx = topLeftIdx + squareIdxDelta[j]
+        const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
         this._values[nextIdx] = nextNode
       }
       gridDiv.appendChild(nextBigSquare)
