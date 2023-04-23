@@ -14,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.6.4",
     "modern-css-reset": "^1.4.0",
     "random-seedable": "^1.0.8",
     "sudoku.utils": "github:jt-ziolo/sudoku.js"
