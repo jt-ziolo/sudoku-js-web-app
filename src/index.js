@@ -12,7 +12,10 @@ class SudokuSquareNode {
     this._highlightType = 'none'
   }
   updateCssClass () {
-    if (this._isSelected && this._highlightType === 'hover' || this._highlightType === 'hover-selected') {
+    if (
+      (this._isSelected && this._highlightType === 'hover') ||
+      this._highlightType === 'hover-selected'
+    ) {
       this._highlightType = 'hover-selected'
     } else if (this._isSelected) {
       this._highlightType = 'selected'
@@ -128,10 +131,9 @@ class SudokuGrid {
     domElement.addEventListener('click', _ => {
       this.onClick(idx)
     })
-    // TODO: does not seem to be supported
-    // domElement.addEventListener('keydown', event => {
-    // this.onKeyDown(idx, event.key, event.shiftKey)
-    // })
+    domElement.addEventListener('keydown', event => {
+      this.onKeyDown(idx, event.key, event.shiftKey)
+    })
   }
   onMouseEnter (idx) {
     this.getNodeByIdx(idx).setHighlightHoverOrFocused()
@@ -146,8 +148,55 @@ class SudokuGrid {
     this.getNodeByIdx(idx).setSelected(true)
     this._selectedIdx = idx
   }
-  onKeyDown (idx, key, isShiftKeyDown) {
-    console.log(`onKeyDown ${idx} ${key} ${isShiftKeyDown}`)
+  onKeyDown (key, isShiftKeyDown) {
+    switch (key) {
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        this._onNumberKeyDown(key, isShiftKeyDown)
+        break
+
+      case 'Backspace':
+      case 'Delete':
+        this._onDeleteKeyDown()
+        break
+
+      case 'ArrowLeft':
+      case 'ArrowUp':
+      case 'ArrowRight':
+      case 'ArrowDown':
+        this._onArrowKeyDown(key)
+        break
+
+      default:
+        break
+    }
+  }
+  _onNumberKeyDown (key, isShiftKeyDown) {
+    if (this._selectedIdx === -1) {
+      return
+    }
+    console.log(`onNumberKeyDown ${key} ${isShiftKeyDown}`)
+  }
+  _onDeleteKeyDown () {
+    if (this._selectedIdx === -1) {
+      return
+    }
+    console.log(`onDeleteKeyDown`)
+  }
+  _onArrowKeyDown (key) {
+    if (this._selectedIdx === -1) {
+      // select the first square if none is selected
+      this.onClick(getIdxByRowCol(0, 0))
+      return
+    }
+    console.log(`onArrowKeyDown ${key}`)
   }
   getNodeByIdx (idx) {
     return this._values[idx]
@@ -478,3 +527,8 @@ export {
 // Site setup
 // TODO: move to a separate file and update index.html reference
 const grid = new SudokuGrid(document)
+
+document.onkeydown = event => {
+  // console.log(`KEY DOWN ${event.key}`)
+  grid.onKeyDown(event.key, event.shiftKey)
+}
