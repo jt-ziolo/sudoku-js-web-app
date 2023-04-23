@@ -12,7 +12,7 @@ class SudokuSquareNode {
     this._highlightType = 'none'
   }
   updateCssClass () {
-    if (this._isSelected && this._highlightType === 'hover') {
+    if (this._isSelected && this._highlightType === 'hover' || this._highlightType === 'hover-selected') {
       this._highlightType = 'hover-selected'
     } else if (this._isSelected) {
       this._highlightType = 'selected'
@@ -25,11 +25,15 @@ class SudokuSquareNode {
   }
   setSelected (isSelected) {
     this._isSelected = isSelected
-    if(this._isSelected === false) {
-      this.clearHighlights()
+    if (this._isSelected) {
+      this.updateCssClass()
       return
     }
-    this.updateCssClass()
+    if (this._highlightType === 'hover-selected') {
+      this.updateCssClass()
+    } else {
+      this.clearHighlights()
+    }
   }
   setHighlightHoverOrFocused () {
     this._highlightType = 'hover'
