@@ -1,0 +1,63 @@
+$square-side-length: 3.5rem;
+$sub-font-size: calc($square-side-length / 3.5);
+$strong-font-size: calc($square-side-length * 3 / 4);
+
+html {
+  font-size: 16px;
+}
+
+#sudoku {
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(3, auto);
+  justify-content: center;
+  margin: 4rem 0;
+
+  ul {
+    display: grid;
+    grid-template: repeat(3, auto) / repeat(3, auto);
+    justify-content: center;
+    align-content: center;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #808080;
+  }
+
+  li {
+    list-style: none;
+    border: 2px solid #b0b0b0;
+    width: $square-side-length;
+    height: $square-side-length;
+
+    strong {
+      font-size: $strong-font-size;
+      text-align: center;
+      width: $square-side-length;
+      height: $square-side-length;
+      display: inline-block;
+      position: relative;
+      bottom: 110%;
+    }
+
+    sub {
+      font-size: $sub-font-size;
+      text-align: center;
+      position: relative;
+      bottom: 20%;
+      color: gray;
+      height: $sub-font-size;
+    }
+  }
+}
+
+.pencilmarks {
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(3, auto);
+  margin: 5%;
+  width: 90%;
+  height: 90%;
+  justify-content: space-between;
+}
+
+.hidden {
+  visibility: hidden;
+}

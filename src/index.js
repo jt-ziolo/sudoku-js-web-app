@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import { random, XORShift } from 'random-seedable'
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
@@ -28,11 +29,12 @@ class SudokuGrid {
   constructor (doc) {
     this._values = []
     this._values.length = 81
-    // const gridDiv = doc.getElementById('sudoku')
-    // const templateBigSquare = gridDiv.getElementById('template-big-square')
-    // templateBigSquare.removeAttribute('id')
-    // const templateSquare = templateBigSquare.getElementById('template-square')
-    // templateSquare.removeAttribute('id')
+
+    const gridDiv = doc.getElementById('sudoku')
+    const templateBigSquare = gridDiv.getElementById('template-big-square')
+    templateBigSquare.removeAttribute('id')
+    const templateSquare = templateBigSquare.getElementById('template-square')
+    templateSquare.removeAttribute('id')
 
     // the following array represents all delta values which, when added to the
     // index of the top left corner of a 3x3 square in the sudoku grid, will
@@ -64,20 +66,19 @@ class SudokuGrid {
     ]
 
     for (let i = 0; i < 9; i++) {
-      // const nextBigSquare = templateBigSquare.cloneNode(true)
+      const nextBigSquare = templateBigSquare.cloneNode(true)
       const topLeftIdx = squareIdxsTopLeftOnly[i]
       for (let j = 0; j < 9; j++) {
-        // const nextSquare = templateSquare.cloneNode(true)
-        // nextBigSquare.appendChild(nextSquare)
-        // const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
+        const nextSquare = templateSquare.cloneNode(true)
+        nextBigSquare.appendChild(nextSquare)
+        const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
         const nextIdx = topLeftIdx + squareIdxDelta[j]
-        const nextNode = new SudokuSquareNode(nextIdx, null)
         this._values[nextIdx] = nextNode
       }
-      // gridDiv.appendChild(nextBigSquare)
+      gridDiv.appendChild(nextBigSquare)
     }
-    // templateBigSquare.remove()
-    // templateSquare.remove()
+    templateBigSquare.remove()
+    templateSquare.remove()
   }
   getNodeByIdx (idx) {
     return _values[idx]

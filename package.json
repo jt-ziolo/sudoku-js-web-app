@@ -8,6 +8,7 @@
     "start": "nodemon --exec babel-node ./src/index.js",
     "test": "mocha --require @babel/register",
     "build": "babel src --out-dir ./dist --source-maps",
+    "sass": "sass --watch ./styles/style.scss ./styles/dist/style.css",
     "serve": "node ./dist/index.js"
   },
   "author": "",
