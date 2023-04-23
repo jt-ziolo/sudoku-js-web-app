@@ -7,35 +7,47 @@ class SudokuSquareNode {
     this.idx = idx
     this.domElement = domElement // TODO: consider removing .domElement
     this._isFilled = false
+    this._isError = false
+    this._isSelected = false
     this._highlightType = 'none'
   }
-  updateClasses () {
+  updateCssClass () {
+    if (this._isSelected && this._highlightType === 'hover') {
+      this._highlightType = 'hover-selected'
+    } else if (this._isSelected) {
+      this._highlightType = 'selected'
+    }
     this.domElement.className = `highlight-${this._highlightType}`
   }
   clearHighlights () {
     this._highlightType = 'none'
-    this.updateClasses()
+    this.updateCssClass()
   }
-  setHighlightSelected () {
-    throw Error('not implemented')
+  setSelected (isSelected) {
+    this._isSelected = isSelected
+    if(this._isSelected === false) {
+      this.clearHighlights()
+      return
+    }
+    this.updateCssClass()
   }
   setHighlightHoverOrFocused () {
     this._highlightType = 'hover'
-    this.updateClasses()
+    this.updateCssClass()
   }
-  setHighlightError () {
-    throw Error('not implemented')
+  setTextColorError () {
+    this._isError = true
+    this.updateCssClass()
   }
   setValue (number) {
+    if (number === '.') {
+      this._isFilled = false
+      this.updateCssClass()
+      return
+    }
     this.clearPencilMarks()
     this._isFilled = true
-    this.updateClasses()
-    throw Error('not implemented')
-  }
-  clearValue () {
-    this._isFilled = false
-    this.updateClasses()
-    throw Error('not implemented')
+    this.updateCssClass()
   }
   togglePencilMark (number) {
     throw Error('not implemented')
@@ -49,6 +61,7 @@ class SudokuGrid {
   constructor (doc) {
     this._values = []
     this._values.length = 81
+    this._selectedIdx = -1
 
     const gridDiv = doc.getElementById('sudoku')
     const templateBigSquare = doc.getElementById('template-big-square')
@@ -108,6 +121,9 @@ class SudokuGrid {
     domElement.addEventListener('mouseleave', _ => {
       this.onMouseLeave(idx)
     })
+    domElement.addEventListener('click', _ => {
+      this.onClick(idx)
+    })
     // TODO: does not seem to be supported
     // domElement.addEventListener('keydown', event => {
     // this.onKeyDown(idx, event.key, event.shiftKey)
@@ -115,11 +131,16 @@ class SudokuGrid {
   }
   onMouseEnter (idx) {
     this.getNodeByIdx(idx).setHighlightHoverOrFocused()
-    // console.log(`onMouseEnter ${idx}`)
   }
   onMouseLeave (idx) {
     this.getNodeByIdx(idx).clearHighlights()
-    // console.log(`onMouseLeave ${idx}`)
+  }
+  onClick (idx) {
+    if (this._selectedIdx !== -1) {
+      this.getNodeByIdx(this._selectedIdx).setSelected(false)
+    }
+    this.getNodeByIdx(idx).setSelected(true)
+    this._selectedIdx = idx
   }
   onKeyDown (idx, key, isShiftKeyDown) {
     console.log(`onKeyDown ${idx} ${key} ${isShiftKeyDown}`)

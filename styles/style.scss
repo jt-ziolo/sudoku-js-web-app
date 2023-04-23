@@ -2,7 +2,8 @@ $square-side-length: 3.5rem;
 $sub-font-size: calc($square-side-length / 3.5);
 $strong-font-size: calc($square-side-length * 3 / 4);
 $highlight-hover-color: #d0d0d0;
-$highlight-select-color: #ffff00;
+$highlight-selected-color: #ffff00;
+$highlight-hover-selected-color: #dede00;
 
 html {
   font-size: 16px;
@@ -71,5 +72,15 @@ html {
 
 .highlight-hover {
   background-color: $highlight-hover-color;
+  transition: background-color 50ms ease-in;
+}
+
+.highlight-hover-selected {
+  background-color: $highlight-hover-selected-color;
+  transition: background-color 50ms ease-in;
+}
+
+.highlight-selected {
+  background-color: $highlight-selected-color;
   transition: background-color 50ms ease-in;
 }

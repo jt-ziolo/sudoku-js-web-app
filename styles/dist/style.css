@@ -64,4 +64,14 @@ html {
   transition: background-color 50ms ease-in;
 }
 
+.highlight-hover-selected {
+  background-color: #dede00;
+  transition: background-color 50ms ease-in;
+}
+
+.highlight-selected {
+  background-color: #ffff00;
+  transition: background-color 50ms ease-in;
+}
+
 /*# sourceMappingURL=style.css.map */
