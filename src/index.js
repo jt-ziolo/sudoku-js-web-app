@@ -1,11 +1,13 @@
-import { random, XORShift } from '../node_modules/random-seedable/src/index.js'
-import sudokuGenLib from '../node_modules/sudoku.utils/build/sudoku.esm.js'
+// import { random, XORShift } from '../node_modules/random-seedable/src/index.js'
+// import sudokuGenLib from '../node_modules/sudoku.utils/build/sudoku.esm.js'
+import { random, XORShift } from 'random-seedable'
+import { default as sudokuGenLib } from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
 
 class SudokuSquareNode {
   constructor (idx, domElement) {
     this.idx = idx
-    this.domElement = domElement // TODO: consider removing .domElement
+    this.domElement = domElement
     this._isFilled = false
     this._isError = false
     this._isSelected = false
@@ -526,9 +528,11 @@ export {
 
 // Site setup
 // TODO: move to a separate file and update index.html reference
-const grid = new SudokuGrid(document)
+try {
+  const grid = new SudokuGrid(document)
 
-document.onkeydown = event => {
-  // console.log(`KEY DOWN ${event.key}`)
-  grid.onKeyDown(event.key, event.shiftKey)
-}
+  document.onkeydown = event => {
+    // console.log(`KEY DOWN ${event.key}`)
+    grid.onKeyDown(event.key, event.shiftKey)
+  }
+} catch (e) {}

@@ -7,9 +7,9 @@
   "scripts": {
     "start": "nodemon --exec babel-node ./src/index.js",
     "test": "mocha --require @babel/register",
-    "build": "babel src --out-dir ./dist --source-maps",
+    "build": "rollup --config",
     "sass": "sass --watch ./styles/style.scss ./styles/dist/style.css",
-    "serve": "node ./dist/index.js"
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -24,10 +24,14 @@
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.21.4",
     "@babel/register": "^7.21.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "chai": "^4.3.7",
+    "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
+    "rollup": "^3.21.0",
     "sass": "^1.62.0",
     "sinon": "^15.0.4"
   }
