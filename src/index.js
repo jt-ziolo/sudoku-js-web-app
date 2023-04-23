@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { random, XORShift } from 'random-seedable'
 import sudokuGenLib from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
