@@ -400,6 +400,7 @@ export {
   getInvalidIdxsBySquaresRule,
   validateSudokuStr,
   SudokuGrid,
+  SudokuSquareNode,
   SudokuSolveLibAdapter,
   SudokuGenLibAdapter
 }

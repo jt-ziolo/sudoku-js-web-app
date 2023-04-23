@@ -2,7 +2,7 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 import { JSDOM } from 'jsdom'
 
-import { SudokuGrid } from '../src/index.js'
+import { SudokuGrid, SudokuSquareNode } from '../src/index.js'
 
 const { document } = new JSDOM(`
     <!DOCTYPE html>
@@ -43,8 +43,21 @@ describe('SudokuGrid', () => {
       )
     })
     describe('_values array post-initialization', () => {
-      it('contains elements of type SudokuSquareNode')
-      it('contains nodes for which domElement is truthy')
+      it('contains elements of type SudokuSquareNode', () => {
+        // setup & exercise
+        const grid = new SudokuGrid(document)
+        const result = grid._values.pop()
+        // verify
+        assert.instanceOf(result, SudokuSquareNode)
+      })
+      it('only contains nodes for which the .domElement field is truthy', () => {
+        // setup & exercise
+        const grid = new SudokuGrid(document)
+        for (let i of grid._values) {
+          // verify
+          assert.isOk(i.domElement)
+        }
+      })
       it('contains 81 truthy elements', () => {
         // setup & exercise
         const grid = new SudokuGrid(document)
