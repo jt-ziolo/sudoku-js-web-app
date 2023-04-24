@@ -255,6 +255,14 @@ class SudokuGrid {
   getNodeByIdx (idx) {
     return this._values[idx]
   }
+  populateWithSudokuStr (sudokuStr) {
+    validateSudokuStr(sudokuStr)
+    this._sudokuStr = sudokuStr
+    for (const idx in this._sudokuStr) {
+      const nextNode = this.getNodeByIdx(idx)
+      nextNode.setValue(this._sudokuStr[idx])
+    }
+  }
 }
 
 const setValueByIdx = (sudokuStr, idx, setTo) => {
@@ -577,7 +585,7 @@ class SudokuGenLibAdapter {
     } else {
       this.rng = random
     }
-    this.seed = randomSeed
+    this._seed = randomSeed
   }
   generate (nGivens) {
     nGivens = nGivens || 50
@@ -586,7 +594,7 @@ class SudokuGenLibAdapter {
     return result
   }
   reset () {
-    return new SudokuGenLibAdapter(this.seed)
+    return new SudokuGenLibAdapter(this._seed)
   }
 }
 
@@ -621,7 +629,10 @@ try {
   const grid = new SudokuGrid(document)
 
   document.onkeydown = event => {
-    // console.log(`KEY DOWN ${event.key}`)
     grid.onKeyDown(event.key, event.shiftKey)
   }
+
+  const generator = new SudokuGenLibAdapter(523)
+  const nGivens = 67
+  grid.populateWithSudokuStr(generator.generate(nGivens))
 } catch (e) {}
