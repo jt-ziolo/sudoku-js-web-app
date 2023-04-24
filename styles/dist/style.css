@@ -57,6 +57,13 @@ html {
 
 .visible {
   visibility: visible;
+  color: #303030;
+  transition: color 100ms ease;
+}
+
+.error {
+  color: #ee0000;
+  transition: color 300ms ease;
 }
 
 .highlight-none {

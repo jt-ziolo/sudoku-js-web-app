@@ -4,6 +4,8 @@ $strong-font-size: calc($square-side-length * 3 / 4);
 $highlight-hover-color: #d0d0d0;
 $highlight-selected-color: #ffff00;
 $highlight-hover-selected-color: #dede00;
+$normal-color: #303030;
+$error-color: #ee0000;
 
 html {
   font-size: 16px;
@@ -68,6 +70,13 @@ html {
 
 .visible {
   visibility: visible;
+  color: $normal-color;
+  transition: color 100ms ease;
+}
+
+.error {
+  color: $error-color;
+  transition: color 300ms ease;
 }
 
 .highlight-none {

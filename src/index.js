@@ -30,6 +30,9 @@ class SudokuSquareNode {
     if (this._isFilled) {
       valueClassName = 'visible'
     }
+    if (this._isError) {
+      valueClassName = 'visible error'
+    }
     this._valueDomElement.className = valueClassName
     // TODO: update pencilmark css class names controlling visibility
   }
@@ -55,6 +58,10 @@ class SudokuSquareNode {
   }
   setTextColorError () {
     this._isError = true
+    this.updateView()
+  }
+  clearTextColorError () {
+    this._isError = false
     this.updateView()
   }
   setValue (number) {
@@ -83,6 +90,8 @@ class SudokuGrid {
     this._selectedIdx = -1
     this._sudokuStr =
       '.................................................................................'
+
+    this._isInputEnabled = true
 
     const gridDiv = doc.getElementById('sudoku')
     const templateBigSquare = doc.getElementById('template-big-square')
@@ -163,6 +172,10 @@ class SudokuGrid {
     this._selectedIdx = idx
   }
   onKeyDown (key, isShiftKeyDown) {
+    if (!this._isInputEnabled) {
+      return
+    }
+    this._isInputEnabled = false
     switch (key) {
       case '1':
       case '2':
@@ -191,6 +204,7 @@ class SudokuGrid {
       default:
         break
     }
+    this._isInputEnabled = true
   }
   _onNumberKeyDown (key, isShiftKeyDown) {
     const selectedIdx = this._selectedIdx
@@ -199,6 +213,7 @@ class SudokuGrid {
     }
     this.getNodeByIdx(selectedIdx).setValue(key)
     this._sudokuStr = setValueByIdx(this._sudokuStr, selectedIdx, key)
+    this._onSudokuStrUpdated()
   }
   _onDeleteKeyDown () {
     if (this._selectedIdx === -1) {
@@ -213,6 +228,29 @@ class SudokuGrid {
       return
     }
     console.log(`onArrowKeyDown ${key}`)
+  }
+  _onSudokuStrUpdated () {
+    const sudokuStr = this._sudokuStr
+    // check if the sudoku is solved
+    if (isSolved(sudokuStr)) {
+      this._isInputEnabled = false
+      alert('Congratulations, you solved the sudoku!')
+      return
+    }
+    // reset the text color of all squares
+    for (const node of this._values) {
+      node.clearTextColorError()
+    }
+
+    // check for invalid squares
+    const invalidIdxs = getInvalidIdxsAll(sudokuStr)
+    if (invalidIdxs.size === 0) {
+      return
+    }
+    // set the text color of invalid squares to red
+    for (const idx of invalidIdxs) {
+      this.getNodeByIdx(idx).setTextColorError()
+    }
   }
   getNodeByIdx (idx) {
     return this._values[idx]
@@ -454,6 +492,25 @@ const getInvalidIdxsBySquaresRule = sudokuStr => {
   }
 
   return invalidIdxs
+}
+
+const getInvalidIdxsAll = sudokuStr => {
+  const result = new Set()
+
+  const rowsRuleIdxs = getInvalidIdxsByColsRule(sudokuStr)
+  for (const elem of rowsRuleIdxs) {
+    result.add(elem)
+  }
+  const colsRuleIdxs = getInvalidIdxsByRowsRule(sudokuStr)
+  for (const elem of colsRuleIdxs) {
+    result.add(elem)
+  }
+  const squaresRuleIdxs = getInvalidIdxsBySquaresRule(sudokuStr)
+  for (const elem of squaresRuleIdxs) {
+    result.add(elem)
+  }
+
+  return result
 }
 
 // Correctly formatted sudoku strings are 81 characters long and only contain
