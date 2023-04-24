@@ -81,6 +81,8 @@ class SudokuGrid {
     this._values = []
     this._values.length = 81
     this._selectedIdx = -1
+    this._sudokuStr =
+      '.................................................................................'
 
     const gridDiv = doc.getElementById('sudoku')
     const templateBigSquare = doc.getElementById('template-big-square')
@@ -191,11 +193,12 @@ class SudokuGrid {
     }
   }
   _onNumberKeyDown (key, isShiftKeyDown) {
-    if (this._selectedIdx === -1) {
+    const selectedIdx = this._selectedIdx
+    if (selectedIdx === -1) {
       return
     }
-    this.getNodeByIdx(this._selectedIdx).setValue(key)
-    console.log(`onNumberKeyDown ${key} ${isShiftKeyDown}`)
+    this.getNodeByIdx(selectedIdx).setValue(key)
+    this._sudokuStr = setValueByIdx(this._sudokuStr, selectedIdx, key)
   }
   _onDeleteKeyDown () {
     if (this._selectedIdx === -1) {
@@ -216,14 +219,12 @@ class SudokuGrid {
   }
 }
 
-const setValueByRowCol = (sudokuStr, row, col, setTo) => {
+const setValueByIdx = (sudokuStr, idx, setTo) => {
   validateSudokuStr(sudokuStr)
-
-  const targetIdx = getIdxByRowCol(row, col)
 
   let result = ''
   for (let i = 0; i < sudokuStr.length; i++) {
-    if (i == targetIdx) {
+    if (i == idx) {
       result += setTo
       continue
     }
@@ -233,6 +234,26 @@ const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   validateSudokuStr(result)
 
   return result
+}
+
+const setValueByRowCol = (sudokuStr, row, col, setTo) => {
+  return setValueByIdx(sudokuStr, getIdxByRowCol(row, col), setTo)
+  // validateSudokuStr(sudokuStr)
+
+  // const targetIdx = getIdxByRowCol(row, col)
+
+  // let result = ''
+  // for (let i = 0; i < sudokuStr.length; i++) {
+  //   if (i == targetIdx) {
+  //     result += setTo
+  //     continue
+  //   }
+  //   result += sudokuStr[i]
+  // }
+
+  // validateSudokuStr(result)
+
+  // return result
 }
 
 const getValueByRowCol = (sudokuStr, row, col) => {

@@ -1122,6 +1122,7 @@ var SudokuGrid = /*#__PURE__*/function () {
     this._values = [];
     this._values.length = 81;
     this._selectedIdx = -1;
+    this._sudokuStr = '.................................................................................';
     var gridDiv = doc.getElementById('sudoku');
     var templateBigSquare = doc.getElementById('template-big-square');
     templateBigSquare.removeAttribute('id');
@@ -1218,11 +1219,13 @@ var SudokuGrid = /*#__PURE__*/function () {
   }, {
     key: "_onNumberKeyDown",
     value: function _onNumberKeyDown(key, isShiftKeyDown) {
-      if (this._selectedIdx === -1) {
+      var selectedIdx = this._selectedIdx;
+      if (selectedIdx === -1) {
         return;
       }
-      this.getNodeByIdx(this._selectedIdx).setValue(key);
-      console.log("onNumberKeyDown ".concat(key, " ").concat(isShiftKeyDown));
+      this.getNodeByIdx(selectedIdx).setValue(key);
+      this._sudokuStr = setValueByIdx(this._sudokuStr, selectedIdx, key);
+      console.log(this._sudokuStr);
     }
   }, {
     key: "_onDeleteKeyDown",
@@ -1250,12 +1253,11 @@ var SudokuGrid = /*#__PURE__*/function () {
   }]);
   return SudokuGrid;
 }();
-var setValueByRowCol = function setValueByRowCol(sudokuStr, row, col, setTo) {
+var setValueByIdx = function setValueByIdx(sudokuStr, idx, setTo) {
   validateSudokuStr(sudokuStr);
-  var targetIdx = getIdxByRowCol(row, col);
   var result = '';
   for (var i = 0; i < sudokuStr.length; i++) {
-    if (i == targetIdx) {
+    if (i == idx) {
       result += setTo;
       continue;
     }
@@ -1264,6 +1266,26 @@ var setValueByRowCol = function setValueByRowCol(sudokuStr, row, col, setTo) {
   validateSudokuStr(result);
   return result;
 };
+var setValueByRowCol = function setValueByRowCol(sudokuStr, row, col, setTo) {
+  return setValueByIdx(sudokuStr, getIdxByRowCol(row, col), setTo);
+  // validateSudokuStr(sudokuStr)
+
+  // const targetIdx = getIdxByRowCol(row, col)
+
+  // let result = ''
+  // for (let i = 0; i < sudokuStr.length; i++) {
+  //   if (i == targetIdx) {
+  //     result += setTo
+  //     continue
+  //   }
+  //   result += sudokuStr[i]
+  // }
+
+  // validateSudokuStr(result)
+
+  // return result
+};
+
 var getValueByRowCol = function getValueByRowCol(sudokuStr, row, col) {
   // row, col, idx
   // 0, 0, 0
