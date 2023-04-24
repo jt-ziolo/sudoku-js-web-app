@@ -25,10 +25,11 @@ describe('sudoku generator library', () => {
     })
     it('generates with the correct number of givens', () => {
       // exercise
-      const nGivens = 42
-      const result = gen1Seed1.generate(nGivens)
-      // verify
-      assert.strictEqual(getEmptyIdxs(result).size, 81 - nGivens)
+      for (let i = 17; i < 81; i++) {
+        const result = gen1Seed1.generate(i)
+        // verify
+        assert.strictEqual(getEmptyIdxs(result).size, 81 - i)
+      }
     })
     it('generates a valid sudoku (correctly formatted)', () => {
       // exercise

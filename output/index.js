@@ -1650,7 +1650,8 @@ var SudokuGenLibAdapter = /*#__PURE__*/function () {
     key: "generate",
     value: function generate(nGivens) {
       nGivens = nGivens || 50;
-      var result = e.generate(nGivens, this.rng);
+      // The type of nGivens must be Number for this to work correctly
+      var result = e.generate(parseInt(nGivens), this.rng);
       validateSudokuStr(result);
       return result;
     }
@@ -1676,7 +1677,6 @@ var SudokuSolveLibAdapter = /*#__PURE__*/function () {
 }();
 
 // Site setup
-// TODO: move to a separate file and update index.html reference
 try {
   var grid = new SudokuGrid(document);
 
@@ -1686,7 +1686,9 @@ try {
   };
 
   // Generate the initial sudoku
-  var generator = new SudokuGenLibAdapter(523);
+  // TODO: add fixed seed depending on if we are using a test adapter for the
+  // browser
+  var generator = new SudokuGenLibAdapter();
   var nGivens = 80;
   grid.populateWithSudokuStr(generator.generate(nGivens));
 
@@ -1695,8 +1697,16 @@ try {
   var input = document.getElementById('difficulty-range');
   input.addEventListener('input', function (event) {
     output.textContent = event.target.value;
+    nGivens = event.target.value;
   });
   output.textContent = input.value;
+  nGivens = input.value;
+
+  // link the generate button with sudoku generation
+  document.getElementById('generate-btn').addEventListener('click', function (event) {
+    var result = generator.generate(nGivens);
+    grid.populateWithSudokuStr(result);
+  });
 } catch (e) {}
 
 export { SudokuGenLibAdapter, SudokuGrid, SudokuSolveLibAdapter, SudokuSquareNode, getEmptyIdxs, getIdxByRowCol, getInvalidIdxsByColsRule, getInvalidIdxsByRowsRule, getInvalidIdxsBySquaresRule, getRowColByIdx, getValueByRowCol, isFilled, isSolved, isValid, setValueByRowCol, validateSudokuStr };

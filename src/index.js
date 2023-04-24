@@ -589,7 +589,8 @@ class SudokuGenLibAdapter {
   }
   generate (nGivens) {
     nGivens = nGivens || 50
-    const result = sudokuGenLib.generate(nGivens, this.rng)
+    // The type of nGivens must be Number for this to work correctly
+    const result = sudokuGenLib.generate(parseInt(nGivens), this.rng)
     validateSudokuStr(result)
     return result
   }
@@ -624,7 +625,6 @@ export {
 }
 
 // Site setup
-// TODO: move to a separate file and update index.html reference
 try {
   const grid = new SudokuGrid(document)
 
@@ -634,8 +634,10 @@ try {
   }
 
   // Generate the initial sudoku
-  const generator = new SudokuGenLibAdapter(523)
-  const nGivens = 80
+  // TODO: add fixed seed depending on if we are using a test adapter for the
+  // browser
+  const generator = new SudokuGenLibAdapter()
+  let nGivens = 80
   grid.populateWithSudokuStr(generator.generate(nGivens))
 
   // link the range input to its label
@@ -643,6 +645,14 @@ try {
   const input = document.getElementById('difficulty-range')
   input.addEventListener('input', event => {
     output.textContent = event.target.value
+    nGivens = event.target.value
   })
   output.textContent = input.value
+  nGivens = input.value
+
+  // link the generate button with sudoku generation
+  document.getElementById('generate-btn').addEventListener('click', event => {
+    const result = generator.generate(nGivens)
+    grid.populateWithSudokuStr(result)
+  })
 } catch (e) {}
