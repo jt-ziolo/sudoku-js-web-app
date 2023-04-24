@@ -207,19 +207,20 @@ class SudokuGrid {
     this._isInputEnabled = true
   }
   _onNumberKeyDown (key, isShiftKeyDown) {
-    const selectedIdx = this._selectedIdx
-    if (selectedIdx === -1) {
+    if (this._selectedIdx === -1) {
       return
     }
-    this.getNodeByIdx(selectedIdx).setValue(key)
-    this._sudokuStr = setValueByIdx(this._sudokuStr, selectedIdx, key)
+    this.getNodeByIdx(this._selectedIdx).setValue(key)
+    this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key)
     this._onSudokuStrUpdated()
   }
   _onDeleteKeyDown () {
     if (this._selectedIdx === -1) {
       return
     }
-    console.log(`onDeleteKeyDown`)
+    this.getNodeByIdx(this._selectedIdx).setValue('.')
+    this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, '.')
+    this._onSudokuStrUpdated()
   }
   _onArrowKeyDown (key) {
     if (this._selectedIdx === -1) {
@@ -235,7 +236,6 @@ class SudokuGrid {
     if (isSolved(sudokuStr)) {
       this._isInputEnabled = false
       alert('Congratulations, you solved the sudoku!')
-      return
     }
     // reset the text color of all squares
     for (const node of this._values) {

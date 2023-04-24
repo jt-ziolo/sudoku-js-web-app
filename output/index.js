@@ -1234,12 +1234,11 @@ var SudokuGrid = /*#__PURE__*/function () {
   }, {
     key: "_onNumberKeyDown",
     value: function _onNumberKeyDown(key, isShiftKeyDown) {
-      var selectedIdx = this._selectedIdx;
-      if (selectedIdx === -1) {
+      if (this._selectedIdx === -1) {
         return;
       }
-      this.getNodeByIdx(selectedIdx).setValue(key);
-      this._sudokuStr = setValueByIdx(this._sudokuStr, selectedIdx, key);
+      this.getNodeByIdx(this._selectedIdx).setValue(key);
+      this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key);
       this._onSudokuStrUpdated();
     }
   }, {
@@ -1248,7 +1247,9 @@ var SudokuGrid = /*#__PURE__*/function () {
       if (this._selectedIdx === -1) {
         return;
       }
-      console.log("onDeleteKeyDown");
+      this.getNodeByIdx(this._selectedIdx).setValue('.');
+      this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, '.');
+      this._onSudokuStrUpdated();
     }
   }, {
     key: "_onArrowKeyDown",
@@ -1268,7 +1269,6 @@ var SudokuGrid = /*#__PURE__*/function () {
       if (isSolved(sudokuStr)) {
         this._isInputEnabled = false;
         alert('Congratulations, you solved the sudoku!');
-        return;
       }
       // reset the text color of all squares
       var _iterator = _createForOfIteratorHelper(this._values),
