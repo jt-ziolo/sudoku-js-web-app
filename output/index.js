@@ -1234,7 +1234,6 @@ var SudokuGrid = /*#__PURE__*/function () {
   }, {
     key: "_onNumberKeyDown",
     value: function _onNumberKeyDown(key, isShiftKeyDown) {
-      console.log('hello');
       var selectedIdx = this._selectedIdx;
       if (selectedIdx === -1) {
         return;
@@ -1308,6 +1307,16 @@ var SudokuGrid = /*#__PURE__*/function () {
     key: "getNodeByIdx",
     value: function getNodeByIdx(idx) {
       return this._values[idx];
+    }
+  }, {
+    key: "populateWithSudokuStr",
+    value: function populateWithSudokuStr(sudokuStr) {
+      validateSudokuStr(sudokuStr);
+      this._sudokuStr = sudokuStr;
+      for (var idx in this._sudokuStr) {
+        var nextNode = this.getNodeByIdx(idx);
+        nextNode.setValue(this._sudokuStr[idx]);
+      }
     }
   }]);
   return SudokuGrid;
@@ -1635,7 +1644,7 @@ var SudokuGenLibAdapter = /*#__PURE__*/function () {
     } else {
       this.rng = random;
     }
-    this.seed = randomSeed;
+    this._seed = randomSeed;
   }
   _createClass(SudokuGenLibAdapter, [{
     key: "generate",
@@ -1648,7 +1657,7 @@ var SudokuGenLibAdapter = /*#__PURE__*/function () {
   }, {
     key: "reset",
     value: function reset() {
-      return new SudokuGenLibAdapter(this.seed);
+      return new SudokuGenLibAdapter(this._seed);
     }
   }]);
   return SudokuGenLibAdapter;
@@ -1671,9 +1680,11 @@ var SudokuSolveLibAdapter = /*#__PURE__*/function () {
 try {
   var grid = new SudokuGrid(document);
   document.onkeydown = function (event) {
-    // console.log(`KEY DOWN ${event.key}`)
     grid.onKeyDown(event.key, event.shiftKey);
   };
+  var generator = new SudokuGenLibAdapter(523);
+  var nGivens = 67;
+  grid.populateWithSudokuStr(generator.generate(nGivens));
 } catch (e) {}
 
 export { SudokuGenLibAdapter, SudokuGrid, SudokuSolveLibAdapter, SudokuSquareNode, getEmptyIdxs, getIdxByRowCol, getInvalidIdxsByColsRule, getInvalidIdxsByRowsRule, getInvalidIdxsBySquaresRule, getRowColByIdx, getValueByRowCol, isFilled, isSolved, isValid, setValueByRowCol, validateSudokuStr };
