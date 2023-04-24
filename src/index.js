@@ -628,11 +628,21 @@ export {
 try {
   const grid = new SudokuGrid(document)
 
+  // set up keyboard events
   document.onkeydown = event => {
     grid.onKeyDown(event.key, event.shiftKey)
   }
 
+  // Generate the initial sudoku
   const generator = new SudokuGenLibAdapter(523)
-  const nGivens = 67
+  const nGivens = 80
   grid.populateWithSudokuStr(generator.generate(nGivens))
+
+  // link the range input to its label
+  const output = document.getElementById('difficulty-output')
+  const input = document.getElementById('difficulty-range')
+  input.addEventListener('input', event => {
+    output.textContent = event.target.value
+  })
+  output.textContent = input.value
 } catch (e) {}

@@ -1679,12 +1679,24 @@ var SudokuSolveLibAdapter = /*#__PURE__*/function () {
 // TODO: move to a separate file and update index.html reference
 try {
   var grid = new SudokuGrid(document);
+
+  // set up keyboard events
   document.onkeydown = function (event) {
     grid.onKeyDown(event.key, event.shiftKey);
   };
+
+  // Generate the initial sudoku
   var generator = new SudokuGenLibAdapter(523);
-  var nGivens = 67;
+  var nGivens = 80;
   grid.populateWithSudokuStr(generator.generate(nGivens));
+
+  // link the range input to its label
+  var output = document.getElementById('difficulty-output');
+  var input = document.getElementById('difficulty-range');
+  input.addEventListener('input', function (event) {
+    output.textContent = event.target.value;
+  });
+  output.textContent = input.value;
 } catch (e) {}
 
 export { SudokuGenLibAdapter, SudokuGrid, SudokuSolveLibAdapter, SudokuSquareNode, getEmptyIdxs, getIdxByRowCol, getInvalidIdxsByColsRule, getInvalidIdxsByRowsRule, getInvalidIdxsBySquaresRule, getRowColByIdx, getValueByRowCol, isFilled, isSolved, isValid, setValueByRowCol, validateSudokuStr };

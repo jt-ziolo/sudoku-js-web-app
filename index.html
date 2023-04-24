@@ -47,21 +47,27 @@
 
     <section class="flex">
       <div id="sudoku"></div>
-      <form>
-        <h2>Example difficulties by number of given squares:</h2>
-        <ol>
-          <li>Easy - 67</li>
-          <li>Easy - 62</li>
-          <li>Medium - 53</li>
-          <li>Hard - 44</li>
-          <li>Very-Hard - 35</li>
-          <li>Insane - 26</li>
-          <li>Inhuman - 17</li>
-        </ol>
-        <input type="range" name="difficulty" id="" min="17" max="62" />
-        <label for="difficulty">Difficulty: # Given Squares</label>
-        <input type="submit" value="Generate New Sudoku" />
-      </form>
+      <h2>Difficulty by number of given squares:</h2>
+      <ol>
+        <li>Easy &mdash; 62</li>
+        <li>Medium &mdash; 53</li>
+        <li>Hard &mdash; 44</li>
+        <li>Very-Hard &mdash; 35</li>
+        <li>Insane &mdash; 26</li>
+        <li>Inhuman &mdash; 17</li>
+      </ol>
+      <input
+        type="range"
+        name="difficulty"
+        id="difficulty-range"
+        min="17"
+        max="62"
+        value="62"
+      />
+      <label for="difficulty"
+        >Given Squares: <output id="difficulty-output"></output
+      ></label>
+      <button>Generate New Sudoku</button>
     </section>
 
     <footer>
