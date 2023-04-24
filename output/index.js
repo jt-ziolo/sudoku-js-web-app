@@ -1,3 +1,30 @@
+function _iterableToArrayLimit(arr, i) {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
+    try {
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+    } catch (err) {
+      _d = !0, _e = err;
+    } finally {
+      try {
+        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+    return _arr;
+  }
+}
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -20,6 +47,12 @@ function _createClass(Constructor, protoProps, staticProps) {
   });
   return Constructor;
 }
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
   if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -32,6 +65,9 @@ function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
   for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
   return arr2;
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
@@ -1259,7 +1295,41 @@ var SudokuGrid = /*#__PURE__*/function () {
         this.onClick(getIdxByRowCol(0, 0));
         return;
       }
-      console.log("onArrowKeyDown ".concat(key));
+      var _getRowColByIdx = getRowColByIdx(this._selectedIdx),
+        _getRowColByIdx2 = _slicedToArray(_getRowColByIdx, 2),
+        row = _getRowColByIdx2[0],
+        col = _getRowColByIdx2[1];
+      switch (key) {
+        case 'ArrowLeft':
+          if (col == 0) {
+            col = 8;
+          } else {
+            col -= 1;
+          }
+          break;
+        case 'ArrowUp':
+          if (row == 0) {
+            row = 8;
+          } else {
+            row -= 1;
+          }
+          break;
+        case 'ArrowRight':
+          if (col == 8) {
+            col = 0;
+          } else {
+            col += 1;
+          }
+          break;
+        case 'ArrowDown':
+          if (row == 8) {
+            row = 0;
+          } else {
+            row += 1;
+          }
+          break;
+      }
+      this.onClick(getIdxByRowCol(row, col));
     }
   }, {
     key: "_onSudokuStrUpdated",
@@ -1682,6 +1752,9 @@ try {
 
   // set up keyboard events
   document.onkeydown = function (event) {
+    if (['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].includes(event.key)) {
+      event.preventDefault();
+    }
     grid.onKeyDown(event.key, event.shiftKey);
   };
 

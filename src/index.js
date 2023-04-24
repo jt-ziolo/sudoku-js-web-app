@@ -228,7 +228,40 @@ class SudokuGrid {
       this.onClick(getIdxByRowCol(0, 0))
       return
     }
-    console.log(`onArrowKeyDown ${key}`)
+    let [row, col] = getRowColByIdx(this._selectedIdx)
+    switch (key) {
+      case 'ArrowLeft':
+        if (col == 0) {
+          col = 8
+        } else {
+          col -= 1
+        }
+        break
+      case 'ArrowUp':
+        if (row == 0) {
+          row = 8
+        } else {
+          row -= 1
+        }
+        break
+      case 'ArrowRight':
+        if (col == 8) {
+          col = 0
+        } else {
+          col += 1
+        }
+        break
+      case 'ArrowDown':
+        if (row == 8) {
+          row = 0
+        } else {
+          row += 1
+        }
+        break
+      default:
+        break
+    }
+    this.onClick(getIdxByRowCol(row, col))
   }
   _onSudokuStrUpdated () {
     const sudokuStr = this._sudokuStr
@@ -630,6 +663,11 @@ try {
 
   // set up keyboard events
   document.onkeydown = event => {
+    if (
+      ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].includes(event.key)
+    ) {
+      event.preventDefault()
+    }
     grid.onKeyDown(event.key, event.shiftKey)
   }
 
