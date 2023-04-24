@@ -7,7 +7,10 @@ const config = {
     dir: 'output',
     format: 'es'
   },
-  plugins: [nodeResolve(), babel({ babelHelpers: 'bundled' })]
+  plugins: [
+    nodeResolve(),
+    babel({ babelHelpers: 'bundled' })
+  ]
 }
 
 export default config

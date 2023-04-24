@@ -7,9 +7,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node ./src/index.js",
     "test": "mocha --require @babel/register",
-    "build": "rollup --config",
-    "sass": "sass --watch ./styles/style.scss ./styles/dist/style.css",
-    "prepare": "husky install"
+    "build": "rollup --config -w & sass --watch styles/style.scss output/style.css"
   },
   "author": "",
   "license": "ISC",

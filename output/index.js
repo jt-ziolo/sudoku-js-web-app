@@ -1234,7 +1234,6 @@ var SudokuGrid = /*#__PURE__*/function () {
   }, {
     key: "_onNumberKeyDown",
     value: function _onNumberKeyDown(key, isShiftKeyDown) {
-      console.log('hello');
       var selectedIdx = this._selectedIdx;
       if (selectedIdx === -1) {
         return;
