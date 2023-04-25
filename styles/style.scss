@@ -31,6 +31,7 @@ $color-highlight-hover: #d0d0d0;
 $color-highlight-selected: #ffff00;
 $color-highlight-hover-selected: #dede00;
 $color-text-error: #ee0000;
+$color-text-pencil: #808080;
 
 html {
   // rem unit reference
@@ -181,6 +182,10 @@ button {
 .error {
   color: $color-text-error;
   transition: color 300ms ease;
+}
+
+.pencil {
+  color: $color-text-pencil;
 }
 
 .highlight-none {

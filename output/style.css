@@ -231,6 +231,10 @@ button {
   transition: color 300ms ease;
 }
 
+.pencil {
+  color: #808080;
+}
+
 .highlight-none {
   background-color: transparent;
   transition: background-color 100ms ease;

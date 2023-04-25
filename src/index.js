@@ -9,6 +9,9 @@ class SudokuSquareNode {
     this.idx = idx
     this.domElement = domElement
     this._valueDomElement = domElement.getElementsByTagName('strong')[0]
+    this._pencilmarkDomElements =
+      domElement.getElementsByClassName('pencilmarks')[0].children
+    this._activePencilmarks = new Set()
     this._isFilled = false
     this._isError = false
     this._isSelected = false
@@ -34,7 +37,21 @@ class SudokuSquareNode {
       valueClassName = 'visible error'
     }
     this._valueDomElement.className = valueClassName
-    // TODO: update pencilmark css class names controlling visibility
+    // update _pencilmarkDomElements class names
+    // start by setting all pencilmarks to hidden, then unhiding those which
+    // are active
+    for (const next of this._pencilmarkDomElements) {
+      next.className = 'hidden'
+    }
+    if (this._isFilled) {
+      // don't render pencilmarks if the square is filled
+      return
+    }
+    for (const nextActive of this._activePencilmarks) {
+      // unhide the pencilmark element with innerHTML matching the number
+      const nextElement = this._pencilmarkDomElements[nextActive - 1]
+      nextElement.className = 'visible'
+    }
   }
   clearHighlights () {
     this._highlightType = 'none'
@@ -76,10 +93,21 @@ class SudokuSquareNode {
     this.updateView()
   }
   togglePencilMark (number) {
-    throw Error('not implemented')
+    console.log(number)
+    if (number <= 0 || number > 9) {
+      return
+    }
+    if (this._activePencilmarks.has(number)) {
+      this._activePencilmarks.delete(number)
+      this.updateView()
+      return
+    }
+    this._activePencilmarks.add(number)
+    this.updateView()
   }
   clearPencilMarks () {
-    throw Error('not implemented')
+    this._activePencilmarks = new Set()
+    this.updateView()
   }
 }
 
@@ -155,7 +183,7 @@ class SudokuGrid {
       this.onClick(idx)
     })
     domElement.addEventListener('keydown', event => {
-      this.onKeyDown(idx, event.key, event.shiftKey)
+      this.onKeyDown(idx, event.key, event.ctrlKey)
     })
   }
   onMouseEnter (idx) {
@@ -171,7 +199,7 @@ class SudokuGrid {
     this.getNodeByIdx(idx).setSelected(true)
     this._selectedIdx = idx
   }
-  onKeyDown (key, isShiftKeyDown) {
+  onKeyDown (key, isCtrlKeyDown) {
     if (!this._isInputEnabled) {
       return
     }
@@ -186,7 +214,7 @@ class SudokuGrid {
       case '7':
       case '8':
       case '9':
-        this._onNumberKeyDown(key, isShiftKeyDown)
+        this._onNumberKeyDown(key, isCtrlKeyDown)
         break
 
       case 'Backspace':
@@ -206,11 +234,16 @@ class SudokuGrid {
     }
     this._isInputEnabled = true
   }
-  _onNumberKeyDown (key, isShiftKeyDown) {
+  _onNumberKeyDown (key, isCtrlKeyDown) {
     if (this._selectedIdx === -1) {
       return
     }
-    this.getNodeByIdx(this._selectedIdx).setValue(key)
+    const node = this.getNodeByIdx(this._selectedIdx)
+    if (isCtrlKeyDown) {
+      node.togglePencilMark(key)
+      return
+    }
+    node.setValue(key)
     this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key)
     this._onSudokuStrUpdated()
   }
@@ -668,7 +701,7 @@ try {
     ) {
       event.preventDefault()
     }
-    grid.onKeyDown(event.key, event.shiftKey)
+    grid.onKeyDown(event.key, event.ctrlKey)
   }
 
   // Generate the initial sudoku

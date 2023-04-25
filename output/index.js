@@ -1071,6 +1071,8 @@ var SudokuSquareNode = /*#__PURE__*/function () {
     this.idx = idx;
     this.domElement = domElement;
     this._valueDomElement = domElement.getElementsByTagName('strong')[0];
+    this._pencilmarkDomElements = domElement.getElementsByClassName('pencilmarks')[0].children;
+    this._activePencilmarks = new Set();
     this._isFilled = false;
     this._isError = false;
     this._isSelected = false;
@@ -1095,7 +1097,39 @@ var SudokuSquareNode = /*#__PURE__*/function () {
         valueClassName = 'visible error';
       }
       this._valueDomElement.className = valueClassName;
-      // TODO: update pencilmark css class names controlling visibility
+      // update _pencilmarkDomElements class names
+      // start by setting all pencilmarks to hidden, then unhiding those which
+      // are active
+      var _iterator = _createForOfIteratorHelper(this._pencilmarkDomElements),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var next = _step.value;
+          next.className = 'hidden';
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      if (this._isFilled) {
+        // don't render pencilmarks if the square is filled
+        return;
+      }
+      var _iterator2 = _createForOfIteratorHelper(this._activePencilmarks),
+        _step2;
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var nextActive = _step2.value;
+          // unhide the pencilmark element with innerHTML matching the number
+          var nextElement = this._pencilmarkDomElements[nextActive - 1];
+          nextElement.className = 'visible';
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
     }
   }, {
     key: "clearHighlights",
@@ -1151,12 +1185,23 @@ var SudokuSquareNode = /*#__PURE__*/function () {
   }, {
     key: "togglePencilMark",
     value: function togglePencilMark(number) {
-      throw Error('not implemented');
+      console.log(number);
+      if (number <= 0 || number > 9) {
+        return;
+      }
+      if (this._activePencilmarks.has(number)) {
+        this._activePencilmarks["delete"](number);
+        this.updateView();
+        return;
+      }
+      this._activePencilmarks.add(number);
+      this.updateView();
     }
   }, {
     key: "clearPencilMarks",
     value: function clearPencilMarks() {
-      throw Error('not implemented');
+      this._activePencilmarks = new Set();
+      this.updateView();
     }
   }]);
   return SudokuSquareNode;
@@ -1213,7 +1258,7 @@ var SudokuGrid = /*#__PURE__*/function () {
         _this.onClick(idx);
       });
       domElement.addEventListener('keydown', function (event) {
-        _this.onKeyDown(idx, event.key, event.shiftKey);
+        _this.onKeyDown(idx, event.key, event.ctrlKey);
       });
     }
   }, {
@@ -1237,7 +1282,7 @@ var SudokuGrid = /*#__PURE__*/function () {
     }
   }, {
     key: "onKeyDown",
-    value: function onKeyDown(key, isShiftKeyDown) {
+    value: function onKeyDown(key, isCtrlKeyDown) {
       if (!this._isInputEnabled) {
         return;
       }
@@ -1252,7 +1297,7 @@ var SudokuGrid = /*#__PURE__*/function () {
         case '7':
         case '8':
         case '9':
-          this._onNumberKeyDown(key, isShiftKeyDown);
+          this._onNumberKeyDown(key, isCtrlKeyDown);
           break;
         case 'Backspace':
         case 'Delete':
@@ -1269,11 +1314,16 @@ var SudokuGrid = /*#__PURE__*/function () {
     }
   }, {
     key: "_onNumberKeyDown",
-    value: function _onNumberKeyDown(key, isShiftKeyDown) {
+    value: function _onNumberKeyDown(key, isCtrlKeyDown) {
       if (this._selectedIdx === -1) {
         return;
       }
-      this.getNodeByIdx(this._selectedIdx).setValue(key);
+      var node = this.getNodeByIdx(this._selectedIdx);
+      if (isCtrlKeyDown) {
+        node.togglePencilMark(key);
+        return;
+      }
+      node.setValue(key);
       this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key);
       this._onSudokuStrUpdated();
     }
@@ -1341,36 +1391,36 @@ var SudokuGrid = /*#__PURE__*/function () {
         alert('Congratulations, you solved the sudoku!');
       }
       // reset the text color of all squares
-      var _iterator = _createForOfIteratorHelper(this._values),
-        _step;
+      var _iterator3 = _createForOfIteratorHelper(this._values),
+        _step3;
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var node = _step.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var node = _step3.value;
           node.clearTextColorError();
         }
 
         // check for invalid squares
       } catch (err) {
-        _iterator.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator.f();
+        _iterator3.f();
       }
       var invalidIdxs = getInvalidIdxsAll(sudokuStr);
       if (invalidIdxs.size === 0) {
         return;
       }
       // set the text color of invalid squares to red
-      var _iterator2 = _createForOfIteratorHelper(invalidIdxs),
-        _step2;
+      var _iterator4 = _createForOfIteratorHelper(invalidIdxs),
+        _step4;
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var idx = _step2.value;
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var idx = _step4.value;
           this.getNodeByIdx(idx).setTextColorError();
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator4.e(err);
       } finally {
-        _iterator2.f();
+        _iterator4.f();
       }
     }
   }, {
@@ -1466,11 +1516,11 @@ var getInvalidIdxsByRowsRule = function getInvalidIdxsByRowsRule(sudokuStr) {
   for (var _i = 0, _squareIdxsLeftOnly = squareIdxsLeftOnly; _i < _squareIdxsLeftOnly.length; _i++) {
     var start = _squareIdxsLeftOnly[_i];
     var idxsThisRow = {};
-    var _iterator3 = _createForOfIteratorHelper(squareIdxDelta),
-      _step3;
+    var _iterator5 = _createForOfIteratorHelper(squareIdxDelta),
+      _step5;
     try {
-      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-        var delta = _step3.value;
+      for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+        var delta = _step5.value;
         var nextIdx = start + delta;
         var next = sudokuStr[nextIdx];
         if (next === '.') {
@@ -1478,26 +1528,26 @@ var getInvalidIdxsByRowsRule = function getInvalidIdxsByRowsRule(sudokuStr) {
         }
         if (idxsThisRow.hasOwnProperty(next)) {
           idxsThisRow[next].push(nextIdx);
-          var _iterator4 = _createForOfIteratorHelper(idxsThisRow[next]),
-            _step4;
+          var _iterator6 = _createForOfIteratorHelper(idxsThisRow[next]),
+            _step6;
           try {
-            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-              var idx = _step4.value;
+            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+              var idx = _step6.value;
               invalidIdxs.add(idx);
             }
           } catch (err) {
-            _iterator4.e(err);
+            _iterator6.e(err);
           } finally {
-            _iterator4.f();
+            _iterator6.f();
           }
           continue;
         }
         idxsThisRow[next] = [nextIdx];
       }
     } catch (err) {
-      _iterator3.e(err);
+      _iterator5.e(err);
     } finally {
-      _iterator3.f();
+      _iterator5.f();
     }
   }
   return invalidIdxs;
@@ -1519,11 +1569,11 @@ var getInvalidIdxsByColsRule = function getInvalidIdxsByColsRule(sudokuStr) {
   for (var _i2 = 0, _squareIdxsTopOnly = squareIdxsTopOnly; _i2 < _squareIdxsTopOnly.length; _i2++) {
     var start = _squareIdxsTopOnly[_i2];
     var idxsThisColumn = {};
-    var _iterator5 = _createForOfIteratorHelper(squareIdxDelta),
-      _step5;
+    var _iterator7 = _createForOfIteratorHelper(squareIdxDelta),
+      _step7;
     try {
-      for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-        var delta = _step5.value;
+      for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+        var delta = _step7.value;
         var nextIdx = start + delta;
         var next = sudokuStr[nextIdx];
         if (next === '.') {
@@ -1531,26 +1581,26 @@ var getInvalidIdxsByColsRule = function getInvalidIdxsByColsRule(sudokuStr) {
         }
         if (idxsThisColumn.hasOwnProperty(next)) {
           idxsThisColumn[next].push(nextIdx);
-          var _iterator6 = _createForOfIteratorHelper(idxsThisColumn[next]),
-            _step6;
+          var _iterator8 = _createForOfIteratorHelper(idxsThisColumn[next]),
+            _step8;
           try {
-            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-              var idx = _step6.value;
+            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+              var idx = _step8.value;
               invalidIdxs.add(idx);
             }
           } catch (err) {
-            _iterator6.e(err);
+            _iterator8.e(err);
           } finally {
-            _iterator6.f();
+            _iterator8.f();
           }
           continue;
         }
         idxsThisColumn[next] = [nextIdx];
       }
     } catch (err) {
-      _iterator5.e(err);
+      _iterator7.e(err);
     } finally {
-      _iterator5.f();
+      _iterator7.f();
     }
   }
   return invalidIdxs;
@@ -1572,11 +1622,11 @@ var getInvalidIdxsBySquaresRule = function getInvalidIdxsBySquaresRule(sudokuStr
   for (var _i3 = 0, _squareIdxsTopLeftOnl = squareIdxsTopLeftOnly; _i3 < _squareIdxsTopLeftOnl.length; _i3++) {
     var topLeft = _squareIdxsTopLeftOnl[_i3];
     var idxsThisSquare = {};
-    var _iterator7 = _createForOfIteratorHelper(squareIdxDelta),
-      _step7;
+    var _iterator9 = _createForOfIteratorHelper(squareIdxDelta),
+      _step9;
     try {
-      for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-        var delta = _step7.value;
+      for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+        var delta = _step9.value;
         var nextIdx = topLeft + delta;
         var next = sudokuStr[nextIdx];
         if (next === '.') {
@@ -1584,26 +1634,26 @@ var getInvalidIdxsBySquaresRule = function getInvalidIdxsBySquaresRule(sudokuStr
         }
         if (idxsThisSquare.hasOwnProperty(next)) {
           idxsThisSquare[next].push(nextIdx);
-          var _iterator8 = _createForOfIteratorHelper(idxsThisSquare[next]),
-            _step8;
+          var _iterator10 = _createForOfIteratorHelper(idxsThisSquare[next]),
+            _step10;
           try {
-            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-              var idx = _step8.value;
+            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+              var idx = _step10.value;
               invalidIdxs.add(idx);
             }
           } catch (err) {
-            _iterator8.e(err);
+            _iterator10.e(err);
           } finally {
-            _iterator8.f();
+            _iterator10.f();
           }
           continue;
         }
         idxsThisSquare[next] = [nextIdx];
       }
     } catch (err) {
-      _iterator7.e(err);
+      _iterator9.e(err);
     } finally {
-      _iterator7.f();
+      _iterator9.f();
     }
   }
   return invalidIdxs;
@@ -1611,43 +1661,43 @@ var getInvalidIdxsBySquaresRule = function getInvalidIdxsBySquaresRule(sudokuStr
 var getInvalidIdxsAll = function getInvalidIdxsAll(sudokuStr) {
   var result = new Set();
   var rowsRuleIdxs = getInvalidIdxsByColsRule(sudokuStr);
-  var _iterator9 = _createForOfIteratorHelper(rowsRuleIdxs),
-    _step9;
-  try {
-    for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-      var elem = _step9.value;
-      result.add(elem);
-    }
-  } catch (err) {
-    _iterator9.e(err);
-  } finally {
-    _iterator9.f();
-  }
-  var colsRuleIdxs = getInvalidIdxsByRowsRule(sudokuStr);
-  var _iterator10 = _createForOfIteratorHelper(colsRuleIdxs),
-    _step10;
-  try {
-    for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-      var _elem = _step10.value;
-      result.add(_elem);
-    }
-  } catch (err) {
-    _iterator10.e(err);
-  } finally {
-    _iterator10.f();
-  }
-  var squaresRuleIdxs = getInvalidIdxsBySquaresRule(sudokuStr);
-  var _iterator11 = _createForOfIteratorHelper(squaresRuleIdxs),
+  var _iterator11 = _createForOfIteratorHelper(rowsRuleIdxs),
     _step11;
   try {
     for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-      var _elem2 = _step11.value;
-      result.add(_elem2);
+      var elem = _step11.value;
+      result.add(elem);
     }
   } catch (err) {
     _iterator11.e(err);
   } finally {
     _iterator11.f();
+  }
+  var colsRuleIdxs = getInvalidIdxsByRowsRule(sudokuStr);
+  var _iterator12 = _createForOfIteratorHelper(colsRuleIdxs),
+    _step12;
+  try {
+    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+      var _elem = _step12.value;
+      result.add(_elem);
+    }
+  } catch (err) {
+    _iterator12.e(err);
+  } finally {
+    _iterator12.f();
+  }
+  var squaresRuleIdxs = getInvalidIdxsBySquaresRule(sudokuStr);
+  var _iterator13 = _createForOfIteratorHelper(squaresRuleIdxs),
+    _step13;
+  try {
+    for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+      var _elem2 = _step13.value;
+      result.add(_elem2);
+    }
+  } catch (err) {
+    _iterator13.e(err);
+  } finally {
+    _iterator13.f();
   }
   return result;
 };
@@ -1659,19 +1709,19 @@ var validateSudokuStr = function validateSudokuStr(sudokuStr) {
     throw Error("Illegally formatted sudoku string, length is ".concat(sudokuStr.length, ", !== 81"));
   }
   var validChars = '123456789.';
-  var _iterator12 = _createForOfIteratorHelper(sudokuStr),
-    _step12;
+  var _iterator14 = _createForOfIteratorHelper(sudokuStr),
+    _step14;
   try {
-    for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-      var nextChar = _step12.value;
+    for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+      var nextChar = _step14.value;
       if (!validChars.includes(nextChar)) {
         throw Error("Illegally formatted sudoku string, bad character ".concat(nextChar));
       }
     }
   } catch (err) {
-    _iterator12.e(err);
+    _iterator14.e(err);
   } finally {
-    _iterator12.f();
+    _iterator14.f();
   }
 };
 var getEmptyIdxs = function getEmptyIdxs(sudokuStr) {
@@ -1755,7 +1805,7 @@ try {
     if (['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].includes(event.key)) {
       event.preventDefault();
     }
-    grid.onKeyDown(event.key, event.shiftKey);
+    grid.onKeyDown(event.key, event.ctrlKey);
   };
 
   // Generate the initial sudoku
