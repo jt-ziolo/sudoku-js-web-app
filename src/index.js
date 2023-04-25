@@ -328,6 +328,11 @@ class SudokuGrid {
       const nextNode = this.getNodeByIdx(idx)
       nextNode.setValue(this._sudokuStr[idx])
     }
+    this._values.forEach(node => {
+      node.clearHighlights()
+      node.clearPencilMarks()
+      node.clearTextColorError()
+    })
   }
 }
 

@@ -1437,6 +1437,11 @@ var SudokuGrid = /*#__PURE__*/function () {
         var nextNode = this.getNodeByIdx(idx);
         nextNode.setValue(this._sudokuStr[idx]);
       }
+      this._values.forEach(function (node) {
+        node.clearHighlights();
+        node.clearPencilMarks();
+        node.clearTextColorError();
+      });
     }
   }]);
   return SudokuGrid;
