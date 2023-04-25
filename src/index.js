@@ -355,22 +355,6 @@ const setValueByIdx = (sudokuStr, idx, setTo) => {
 
 const setValueByRowCol = (sudokuStr, row, col, setTo) => {
   return setValueByIdx(sudokuStr, getIdxByRowCol(row, col), setTo)
-  // validateSudokuStr(sudokuStr)
-
-  // const targetIdx = getIdxByRowCol(row, col)
-
-  // let result = ''
-  // for (let i = 0; i < sudokuStr.length; i++) {
-  //   if (i == targetIdx) {
-  //     result += setTo
-  //     continue
-  //   }
-  //   result += sudokuStr[i]
-  // }
-
-  // validateSudokuStr(result)
-
-  // return result
 }
 
 const getValueByRowCol = (sudokuStr, row, col) => {
@@ -713,7 +697,7 @@ try {
   // TODO: add fixed seed depending on if we are using a test adapter for the
   // browser
   const generator = new SudokuGenLibAdapter()
-  let nGivens = 80
+  let nGivens = 62
   grid.populateWithSudokuStr(generator.generate(nGivens))
 
   // link the range input to its label

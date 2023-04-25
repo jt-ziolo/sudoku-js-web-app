@@ -21,7 +21,7 @@
     <script type="module" src="output/index.js"></script>
 
     <header>
-      <h1>Sudoku Web Toy</h1>
+      <h1>Play Sudoku</h1>
     </header>
 
     <ul id="template-big-square"></ul>
@@ -83,10 +83,12 @@
           max="62"
           value="62"
         />
-        <label for="difficulty"
-          >Given Squares: <output id="difficulty-output"></output
-        ></label>
+        <label for="difficulty">
+          Given Squares:
+          <strong><output id="difficulty-output"></output></strong>
+        </label>
         <button id="generate-btn">Generate New Sudoku</button>
+        <sub>Note: Puzzles may or may not have unique solutions</sub>
       </div>
     </section>
     <!-- <footer>

@@ -1461,24 +1461,7 @@ var setValueByIdx = function setValueByIdx(sudokuStr, idx, setTo) {
 };
 var setValueByRowCol = function setValueByRowCol(sudokuStr, row, col, setTo) {
   return setValueByIdx(sudokuStr, getIdxByRowCol(row, col), setTo);
-  // validateSudokuStr(sudokuStr)
-
-  // const targetIdx = getIdxByRowCol(row, col)
-
-  // let result = ''
-  // for (let i = 0; i < sudokuStr.length; i++) {
-  //   if (i == targetIdx) {
-  //     result += setTo
-  //     continue
-  //   }
-  //   result += sudokuStr[i]
-  // }
-
-  // validateSudokuStr(result)
-
-  // return result
 };
-
 var getValueByRowCol = function getValueByRowCol(sudokuStr, row, col) {
   // row, col, idx
   // 0, 0, 0
@@ -1817,7 +1800,7 @@ try {
   // TODO: add fixed seed depending on if we are using a test adapter for the
   // browser
   var generator = new SudokuGenLibAdapter();
-  var nGivens = 80;
+  var nGivens = 62;
   grid.populateWithSudokuStr(generator.generate(nGivens));
 
   // link the range input to its label

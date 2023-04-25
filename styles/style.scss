@@ -100,7 +100,10 @@ section {
     text-align: center;
   }
   label {
-    padding: 1rem;
+    padding-bottom: 1rem;
+  }
+  sub {
+    padding-top: 1rem;
   }
 }
 
@@ -206,4 +209,20 @@ button {
 .highlight-selected {
   background-color: $color-highlight-selected;
   transition: background-color 50ms ease-in;
+}
+
+/* --------- Media queries, adjust to tablets, phones not supported --------- */
+@media screen and (max-width: 1000px) {
+  html {
+    font-size: 14px;
+  }
+
+  .flex-row {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    max-width: 90%;
+    margin: 1rem;
+  }
 }
