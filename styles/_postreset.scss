@@ -1,0 +1,83 @@
+$color-text: #212121;
+$color-text-link: blue;
+$color-text-link-visited: purple;
+
+section,
+footer {
+  padding: 1rem 0 2rem 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote {
+  margin: 1rem 0 2rem 0;
+}
+
+pre,
+blockquote {
+  width: max-content;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+blockquote,
+p,
+small {
+  max-width: 90%;
+}
+
+/* Code blocks */
+pre {
+  padding: 1rem;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 3rem;
+}
+h2 {
+  font-size: 1.625rem;
+  font-weight: bold;
+}
+h3 {
+  width: 100%;
+  text-decoration-line: underline;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+p {
+  font-size: 1rem;
+}
+blockquote {
+  font-size: 1.25rem;
+  padding: 0.5rem 0;
+}
+
+/* ---------------- Small text, e.g. disclaimers or captions ---------------- */
+small {
+  font-size: 0.812rem;
+}
+small small {
+  font-size: 12px;
+}
+
+/* ---------------------------------- Links --------------------------------- */
+a,
+a:link {
+  color: $color-text-link;
+}
+a:visited {
+  color: $color-text-link-visited;
+}
+a:active {
+  color: $color-text-link-visited;
+}

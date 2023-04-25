@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node ./src/index.js",
     "test": "mocha --require @babel/register",
-    "build": "rollup --config -w & sass --watch styles/style.scss output/style.css"
+    "build": "rollup --config -w & sass --watch styles:output"
   },
   "author": "",
   "license": "ISC",

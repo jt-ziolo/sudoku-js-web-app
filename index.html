@@ -8,6 +8,12 @@
       rel="stylesheet"
       href="node_modules/modern-css-reset/dist/reset.min.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Convergence&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Seaweed+Script&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="output/style.css" />
     <title>Sudoku Web Toy</title>
   </head>
@@ -15,18 +21,7 @@
     <script type="module" src="output/index.js"></script>
 
     <header>
-      <nav>
-        <ul>
-          <li>Home</li>
-        </ul>
-      </nav>
       <h1>Sudoku Web Toy</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-        mollitia, est vero incidunt neque odit debitis. Veniam ipsam harum quis
-        tempora, accusantium, voluptas facere similique, aperiam obcaecati quasi
-        vitae necessitatibus.
-      </p>
     </header>
 
     <ul id="template-big-square"></ul>
@@ -45,35 +40,57 @@
       <strong class="hidden"></strong>
     </li>
 
-    <section class="flex">
+    <section class="flex-row">
+      <div class="card flex-col">
+        <h2>Instructions</h2>
+        <hr />
+        <p>
+          Fill in blank squares with the numbers 1 through 9 until all squares
+          are filled and the following rules are met:
+        </p>
+        <ol>
+          <li>Each <em>row</em> only contains one of each number.</li>
+          <li>Each <em>column</em> only contains one of each number.</li>
+          <li>
+            Each <em>three-by-three square</em> only contains one of each
+            number.
+          </li>
+        </ol>
+        <p>
+          Select a square using the mouse or arrow keys. Enter or delete numbers
+          in squares using your keyboard. Hold Shift while entering a number to
+          add it as a pencilmark.
+          <strong>Have fun!</strong>
+        </p>
+      </div>
       <div id="sudoku"></div>
-      <h2>Difficulty by number of given squares:</h2>
-      <ol>
-        <li>Easy &mdash; 62</li>
-        <li>Medium &mdash; 53</li>
-        <li>Hard &mdash; 44</li>
-        <li>Very-Hard &mdash; 35</li>
-        <li>Insane &mdash; 26</li>
-        <li>Inhuman &mdash; 17</li>
-      </ol>
-      <input
-        type="range"
-        name="difficulty"
-        id="difficulty-range"
-        min="17"
-        max="62"
-        value="62"
-      />
-      <label for="difficulty"
-        >Given Squares: <output id="difficulty-output"></output
-      ></label>
-      <button id="generate-btn">Generate New Sudoku</button>
+      <div class="card flex-col">
+        <h2>Generate Sudoku</h2>
+        <hr />
+        <ol>
+          <li>Easy &mdash; 62</li>
+          <li>Medium &mdash; 53</li>
+          <li>Hard &mdash; 44</li>
+          <li>Very-Hard &mdash; 35</li>
+          <li>Insane &mdash; 26</li>
+          <li>Inhuman &mdash; 17</li>
+        </ol>
+        <input
+          type="range"
+          name="difficulty"
+          id="difficulty-range"
+          min="17"
+          max="62"
+          value="62"
+        />
+        <label for="difficulty"
+          >Given Squares: <output id="difficulty-output"></output
+        ></label>
+        <button id="generate-btn">Generate New Sudoku</button>
+      </div>
     </section>
-
-    <footer>
-      <ul>
-        <li>Copyright</li>
-      </ul>
-    </footer>
+    <!-- <footer>
+      <a>Back to Home</a>
+    </footer> -->
   </body>
 </html>
