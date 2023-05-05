@@ -1,16 +1,16 @@
 {
-  "name": "sudokugenerator",
+  "name": "sudoku-js-web-app",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/index.js",
+    "start": "nodemon --exec babel-node ./src/index.js localhost 8080",
     "test": "mocha --require @babel/register",
     "build": "rollup --config -w & sass --watch styles:output"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jason \"JT\" Ziolo",
+  "license": "Apache License 2.0",
   "dependencies": {
     "modern-css-reset": "^1.4.0",
     "random-seedable": "^1.0.8",
