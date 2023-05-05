@@ -35,7 +35,7 @@ $color-text-pencil: #808080;
 
 html {
   // rem unit reference
-  font-size: 18px;
+  font-size: 17px;
   // Defaults
   font-family: $font-sans-serif;
   letter-spacing: $letter-spacing-sans-serif;
@@ -212,9 +212,23 @@ button {
 }
 
 /* --------- Media queries, adjust to tablets, phones not supported --------- */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
   html {
-    font-size: 14px;
+    font-size: 16px;
+  }
+
+  .flex-row {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    max-width: 90%;
+    margin: 1rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 12px;
   }
 
   .flex-row {

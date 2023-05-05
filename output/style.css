@@ -90,7 +90,7 @@ a:active {
 /* -------------------------------------------------------------------------- */
 /* ---------------------- Variables and root font size ---------------------- */
 html {
-  font-size: 18px;
+  font-size: 17px;
   font-family: "Convergence", "Verdana", "Geneva", sans-serif;
   letter-spacing: 0.45px;
   line-height: 1.625;
@@ -259,9 +259,21 @@ button {
 }
 
 /* --------- Media queries, adjust to tablets, phones not supported --------- */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
   html {
-    font-size: 14px;
+    font-size: 16px;
+  }
+  .flex-row {
+    flex-wrap: wrap;
+  }
+  .card {
+    max-width: 90%;
+    margin: 1rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 12px;
   }
   .flex-row {
     flex-wrap: wrap;
