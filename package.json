@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "./output/index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/index.js localhost 8080",
+    "start": "nodemon --exec node ./output/index.js localhost 8080",
     "test": "mocha --require @babel/register",
     "build": "rollup --config -w & sass --watch styles:output"
   },
