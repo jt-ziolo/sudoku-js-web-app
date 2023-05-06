@@ -76,18 +76,18 @@ describe('SudokuGrid', () => {
         9
       )
     })
-    describe('_values array post-initialization', () => {
+    describe('_nodes array post-initialization', () => {
       it('contains elements of type SudokuSquareNode', () => {
         // setup & exercise
         const grid = new SudokuGrid(document)
-        const result = grid._values.pop()
+        const result = grid._nodes.pop()
         // verify
         assert.instanceOf(result, SudokuSquareNode)
       })
       it('only contains nodes for which the .domElement field is truthy', () => {
         // setup & exercise
         const grid = new SudokuGrid(document)
-        for (let i of grid._values) {
+        for (let i of grid._nodes) {
           // verify
           assert.isOk(i.domElement)
         }
@@ -96,7 +96,7 @@ describe('SudokuGrid', () => {
         // setup & exercise
         const grid = new SudokuGrid(document)
         let count = 0
-        for (let i of grid._values) {
+        for (let i of grid._nodes) {
           if (i) {
             count += 1
           }
@@ -104,12 +104,12 @@ describe('SudokuGrid', () => {
         // verify
         assert.strictEqual(count, 81)
       })
-      it('is in order, the idx fields of the nodes match their _values idx', () => {
-        // NOTE: will pass even if the _values array is empty
+      it('is in order, the idx fields of the nodes match their _nodes idx', () => {
+        // NOTE: will pass even if the _nodes array is empty
         // setup & exercise
         const grid = new SudokuGrid(document)
-        for (let arrIdx in grid._values) {
-          const storedIdx = grid._values[arrIdx].idx
+        for (let arrIdx in grid._nodes) {
+          const storedIdx = grid._nodes[arrIdx].idx
           // verify
           assert.equal(storedIdx, arrIdx)
         }

@@ -31,6 +31,7 @@ $color-highlight-hover: #d0d0d0;
 $color-highlight-selected: #ffff00;
 $color-highlight-hover-selected: #dede00;
 $color-text-error: #ee0000;
+$color-text-given: #606060;
 $color-text-pencil: #808080;
 
 html {
@@ -179,13 +180,20 @@ button {
 .visible {
   visibility: visible;
   color: $color-text;
-  transition: color 100ms ease;
+  // transition: color 100ms ease;
 }
 
-.error {
+.visible.error {
   color: $color-text-error;
   transition: color 300ms ease;
 }
+
+.visible.given {
+  color: $color-text-given;
+  transition: color 300ms ease;
+}
+
+
 
 .pencil {
   color: $color-text-pencil;

@@ -1073,8 +1073,9 @@ var SudokuSquareNode = /*#__PURE__*/function () {
     this._valueDomElement = domElement.getElementsByTagName('strong')[0];
     this._pencilmarkDomElements = domElement.getElementsByClassName('pencilmarks')[0].children;
     this._activePencilmarks = new Set();
-    this._isFilled = false;
+    this._isVisible = false;
     this._isError = false;
+    this._isGiven = false;
     this._isSelected = false;
     this._highlightType = 'none';
   }
@@ -1088,13 +1089,16 @@ var SudokuSquareNode = /*#__PURE__*/function () {
         this._highlightType = 'selected';
       }
       this.domElement.className = "highlight-".concat(this._highlightType);
+
       // update _valueDomElement css class names controlling visibility
       var valueClassName = 'hidden';
-      if (this._isFilled) {
+      if (this._isVisible) {
         valueClassName = 'visible';
-      }
-      if (this._isError) {
-        valueClassName = 'visible error';
+        if (this._isError) {
+          valueClassName = 'visible error';
+        } else if (this._isGiven) {
+          valueClassName = 'visible given';
+        }
       }
       this._valueDomElement.className = valueClassName;
       // update _pencilmarkDomElements class names
@@ -1112,7 +1116,7 @@ var SudokuSquareNode = /*#__PURE__*/function () {
       } finally {
         _iterator.f();
       }
-      if (this._isFilled) {
+      if (this._isVisible) {
         // don't render pencilmarks if the square is filled
         return;
       }
@@ -1160,25 +1164,39 @@ var SudokuSquareNode = /*#__PURE__*/function () {
   }, {
     key: "setTextColorError",
     value: function setTextColorError() {
-      this._isError = true;
+      var isError = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      this._isError = isError;
       this.updateView();
     }
   }, {
     key: "clearTextColorError",
     value: function clearTextColorError() {
-      this._isError = false;
+      this.setTextColorError(false);
+    }
+  }, {
+    key: "setTextColorGiven",
+    value: function setTextColorGiven() {
+      var isGiven = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      this._isGiven = isGiven;
       this.updateView();
+    }
+  }, {
+    key: "clearTextColorGiven",
+    value: function clearTextColorGiven() {
+      this.setTextColorGiven(false);
     }
   }, {
     key: "setValue",
     value: function setValue(number) {
+      var isGiven = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       if (number === '.') {
-        this._isFilled = false;
+        this._isVisible = false;
         this.updateView();
         return;
       }
       // this.clearPencilMarks()
-      this._isFilled = true;
+      this._isVisible = true;
+      this.setTextColorGiven(isGiven);
       this._valueDomElement.innerHTML = number;
       this.updateView();
     }
@@ -1209,8 +1227,8 @@ var SudokuSquareNode = /*#__PURE__*/function () {
 var SudokuGrid = /*#__PURE__*/function () {
   function SudokuGrid(doc) {
     _classCallCheck(this, SudokuGrid);
-    this._values = [];
-    this._values.length = 81;
+    this._nodes = [];
+    this._nodes.length = 81;
     this._selectedIdx = -1;
     this._sudokuStr = '.................................................................................';
     this._isInputEnabled = true;
@@ -1237,7 +1255,7 @@ var SudokuGrid = /*#__PURE__*/function () {
         var nextIdx = topLeftIdx + squareIdxDelta[j];
         this.setupSquareEvents(nextSquare, nextIdx);
         var nextNode = new SudokuSquareNode(nextIdx, nextSquare);
-        this._values[nextIdx] = nextNode;
+        this._nodes[nextIdx] = nextNode;
       }
       gridDiv.appendChild(nextBigSquare);
     }
@@ -1391,7 +1409,7 @@ var SudokuGrid = /*#__PURE__*/function () {
         alert('Congratulations, you solved the sudoku!');
       }
       // reset the text color of all squares
-      var _iterator3 = _createForOfIteratorHelper(this._values),
+      var _iterator3 = _createForOfIteratorHelper(this._nodes),
         _step3;
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -1426,22 +1444,23 @@ var SudokuGrid = /*#__PURE__*/function () {
   }, {
     key: "getNodeByIdx",
     value: function getNodeByIdx(idx) {
-      return this._values[idx];
+      return this._nodes[idx];
     }
   }, {
     key: "populateWithSudokuStr",
     value: function populateWithSudokuStr(sudokuStr) {
       validateSudokuStr(sudokuStr);
       this._sudokuStr = sudokuStr;
-      for (var idx in this._sudokuStr) {
-        var nextNode = this.getNodeByIdx(idx);
-        nextNode.setValue(this._sudokuStr[idx]);
-      }
-      this._values.forEach(function (node) {
+      this._nodes.forEach(function (node) {
         node.clearHighlights();
         node.clearPencilMarks();
         node.clearTextColorError();
+        node.clearTextColorGiven();
       });
+      for (var idx in this._sudokuStr) {
+        var nextNode = this.getNodeByIdx(idx);
+        nextNode.setValue(this._sudokuStr[idx], true);
+      }
     }
   }]);
   return SudokuGrid;

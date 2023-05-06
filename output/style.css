@@ -226,11 +226,15 @@ button {
 .visible {
   visibility: visible;
   color: #212121;
-  transition: color 100ms ease;
 }
 
-.error {
+.visible.error {
   color: #ee0000;
+  transition: color 300ms ease;
+}
+
+.visible.given {
+  color: #606060;
   transition: color 300ms ease;
 }
 

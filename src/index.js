@@ -12,8 +12,10 @@ class SudokuSquareNode {
     this._pencilmarkDomElements =
       domElement.getElementsByClassName('pencilmarks')[0].children
     this._activePencilmarks = new Set()
-    this._isFilled = false
+
+    this._isVisible = false
     this._isError = false
+    this._isGiven = false
     this._isSelected = false
     this._highlightType = 'none'
   }
@@ -28,14 +30,19 @@ class SudokuSquareNode {
       this._highlightType = 'selected'
     }
     this.domElement.className = `highlight-${this._highlightType}`
+
     // update _valueDomElement css class names controlling visibility
     let valueClassName = 'hidden'
-    if (this._isFilled) {
+
+    if (this._isVisible) {
       valueClassName = 'visible'
+      if (this._isError) {
+        valueClassName = 'visible error'
+      } else if (this._isGiven) {
+        valueClassName = 'visible given'
+      }
     }
-    if (this._isError) {
-      valueClassName = 'visible error'
-    }
+
     this._valueDomElement.className = valueClassName
     // update _pencilmarkDomElements class names
     // start by setting all pencilmarks to hidden, then unhiding those which
@@ -43,7 +50,7 @@ class SudokuSquareNode {
     for (const next of this._pencilmarkDomElements) {
       next.className = 'hidden'
     }
-    if (this._isFilled) {
+    if (this._isVisible) {
       // don't render pencilmarks if the square is filled
       return
     }
@@ -73,22 +80,29 @@ class SudokuSquareNode {
     this._highlightType = 'hover'
     this.updateView()
   }
-  setTextColorError () {
-    this._isError = true
+  setTextColorError (isError = true) {
+    this._isError = isError
     this.updateView()
   }
   clearTextColorError () {
-    this._isError = false
+    this.setTextColorError(false)
+  }
+  setTextColorGiven (isGiven = true) {
+    this._isGiven = isGiven
     this.updateView()
   }
-  setValue (number) {
+  clearTextColorGiven () {
+    this.setTextColorGiven(false)
+  }
+  setValue (number, isGiven = false) {
     if (number === '.') {
-      this._isFilled = false
+      this._isVisible = false
       this.updateView()
       return
     }
     // this.clearPencilMarks()
-    this._isFilled = true
+    this._isVisible = true
+    this.setTextColorGiven(isGiven)
     this._valueDomElement.innerHTML = number
     this.updateView()
   }
@@ -113,8 +127,8 @@ class SudokuSquareNode {
 
 class SudokuGrid {
   constructor (doc) {
-    this._values = []
-    this._values.length = 81
+    this._nodes = []
+    this._nodes.length = 81
     this._selectedIdx = -1
     this._sudokuStr =
       '.................................................................................'
@@ -165,7 +179,7 @@ class SudokuGrid {
         const nextIdx = topLeftIdx + squareIdxDelta[j]
         this.setupSquareEvents(nextSquare, nextIdx)
         const nextNode = new SudokuSquareNode(nextIdx, nextSquare)
-        this._values[nextIdx] = nextNode
+        this._nodes[nextIdx] = nextNode
       }
       gridDiv.appendChild(nextBigSquare)
     }
@@ -304,7 +318,7 @@ class SudokuGrid {
       alert('Congratulations, you solved the sudoku!')
     }
     // reset the text color of all squares
-    for (const node of this._values) {
+    for (const node of this._nodes) {
       node.clearTextColorError()
     }
 
@@ -319,20 +333,21 @@ class SudokuGrid {
     }
   }
   getNodeByIdx (idx) {
-    return this._values[idx]
+    return this._nodes[idx]
   }
   populateWithSudokuStr (sudokuStr) {
     validateSudokuStr(sudokuStr)
     this._sudokuStr = sudokuStr
-    for (const idx in this._sudokuStr) {
-      const nextNode = this.getNodeByIdx(idx)
-      nextNode.setValue(this._sudokuStr[idx])
-    }
-    this._values.forEach(node => {
+    this._nodes.forEach(node => {
       node.clearHighlights()
       node.clearPencilMarks()
       node.clearTextColorError()
+      node.clearTextColorGiven()
     })
+    for (const idx in this._sudokuStr) {
+      const nextNode = this.getNodeByIdx(idx)
+      nextNode.setValue(this._sudokuStr[idx], true)
+    }
   }
 }
 
