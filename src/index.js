@@ -4,6 +4,8 @@ import { random, XORShift } from 'random-seedable'
 import { default as sudokuGenLib } from 'sudoku.utils'
 const sudokuSolveLib = sudokuGenLib
 
+class ProhibitedOverwriteError extends Error {}
+
 class SudokuSquareNode {
   constructor (idx, domElement) {
     this.idx = idx
@@ -94,7 +96,10 @@ class SudokuSquareNode {
   clearTextColorGiven () {
     this.setTextColorGiven(false)
   }
-  setValue (number, isGiven = false) {
+  setValue (number, isOverridingGiven = false) {
+    if (!isOverridingGiven && this._isGiven) {
+      throw new ProhibitedOverwriteError('Attempted to overwrite given')
+    }
     if (number === '.') {
       this._isVisible = false
       this.updateView()
@@ -102,7 +107,7 @@ class SudokuSquareNode {
     }
     // this.clearPencilMarks()
     this._isVisible = true
-    this.setTextColorGiven(isGiven)
+    this.setTextColorGiven(isOverridingGiven)
     this._valueDomElement.innerHTML = number
     this.updateView()
   }
@@ -257,8 +262,14 @@ class SudokuGrid {
       node.togglePencilMark(key)
       return
     }
-    node.setValue(key)
-    this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key)
+    try {
+      node.setValue(key)
+      this._sudokuStr = setValueByIdx(this._sudokuStr, this._selectedIdx, key)
+    } catch (e) {
+      if (!(e instanceof ProhibitedOverwriteError)) {
+        throw e
+      }
+    }
     this._onSudokuStrUpdated()
   }
   _onDeleteKeyDown () {
